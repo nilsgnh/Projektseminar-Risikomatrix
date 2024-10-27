@@ -1,0 +1,19 @@
+= Ausarbeitung bzgl. DIN EN 50126
+
+== Literatur: "Whats Wrong with Risk Matrices?" von Louis Anthony Cox
+
+* *Informationsverlust* bei Übersetzung von quantativem Attribut Risiko (z.B. berechnet mit: _Risiko=Häufigkeit*Schweregrad_) in qualitative Kategorien (z.B.: _Risiko=tolerabel_)
+* Allgemein: Effektivität von Risikomatrix hängt von gemeinsamer Verteilung der Häufigkeiten und Schweregrade ab
+** negative Korrelation: meist ist Risikokategorisierung der Matrix nicht besser als zufällige Entscheidungen
+** positive Korrelation: Matrix ist hilfreich/ recht genau in Kategorisierung
+
+* *Axiome für Risikomatrix*, damit diese Annäherung an Risikoabbildung ist:
+** _schwache Konsistenz_: Risikomatrix kann zuverlässig zwischen sehr hohen und sehr niedrigen Risiken unterscheiden
+*** Lemma 1: keine angrenzenden roten und grünen Zellen in Matrix wird von DIN EN 50126 erfüllt
+*** Lemma 2: keine roten (intolerablen) Zellen in der linken Spalte oder der unteren Reihe der Matrix wird von DIN EN 50126 erfüllt
+*** so hat DIN EN 50126 schwache Konsistenz
+
+** _Axiom der Zwischenstufen_: Abbildung von kontinuierlichen Erhöhungen von RIsiko in der Matrix
+*** bei kontinuierlicher Erhöhung von quantitativem Risiko sollte auch die qualitative Kategorisierung der Matrix stufenweise ansteigen
+*** DIN EN 50126 erfüllt dieses Axiom, indem es zwischen der niedrigsten und höchsten Risikokategorie (vernachlässigbar und intolerabel) Zwischenstufen (tolerabel, unerwünscht) definiert
+
