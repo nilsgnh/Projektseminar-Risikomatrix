@@ -30,7 +30,7 @@
 * _TODO: Translationsinvarianz an dieser Norm testen_
 ** *Translationsinvarianz*: gleiche Änderung in allen RIsiken sollte das relative Ranking nicht beeinflussen
 
-* _TODO: Ansatz: Gitterlinien in Risikomatrix so platzieren (evt. Skalen nicht linear normieren, sodass maximaler Verlust durch falsch klassifizierte Risiken minimiert wird)
+* _TODO: Ansatz_: Gitterlinien in Risikomatrix so platzieren (evt. Skalen nicht linear normieren, sodass maximaler Verlust durch falsch klassifizierte Risiken minimiert wird)
 
 * _Fragen_:
 ** 5x5 Matrix und (_auch 4x6 Matrix, da sie weniger Felder hat?_) muss genau 3 Farben haben (3 Risikostufen), anonsten kann sie eine falsche Präzision suggerieren und zu Inkonsistenzen führen
