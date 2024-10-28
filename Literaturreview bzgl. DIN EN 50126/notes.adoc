@@ -7,13 +7,30 @@
 ** negative Korrelation: meist ist Risikokategorisierung der Matrix nicht besser als zufällige Entscheidungen
 ** positive Korrelation: Matrix ist hilfreich/ recht genau in Kategorisierung
 
-* *Axiome für Risikomatrix*, damit diese Annäherung an Risikoabbildung ist:
+* *Axiome für Risikomatrix*, damit sichergestellt wird, dass die qualitative Risikobewertung durch Matrix konsistent mit zugrunde liegenden quantitativen Risiken bleibt und eine logische und nachvollziehbare Färbung ergibt.
 ** _schwache Konsistenz_: Risikomatrix kann zuverlässig zwischen sehr hohen und sehr niedrigen Risiken unterscheiden
 *** Lemma 1: keine angrenzenden roten und grünen Zellen in Matrix wird von DIN EN 50126 erfüllt
 *** Lemma 2: keine roten (intolerablen) Zellen in der linken Spalte oder der unteren Reihe der Matrix wird von DIN EN 50126 erfüllt
 *** so hat DIN EN 50126 schwache Konsistenz
 
-** _Axiom der Zwischenstufen_: Abbildung von kontinuierlichen Erhöhungen von RIsiko in der Matrix
+** _Axiom der Zwischenstufen_: Abbildung von kontinuierlichen Erhöhungen von Risiko in der Matrix
 *** bei kontinuierlicher Erhöhung von quantitativem Risiko sollte auch die qualitative Kategorisierung der Matrix stufenweise ansteigen
 *** DIN EN 50126 erfüllt dieses Axiom, indem es zwischen der niedrigsten und höchsten Risikokategorie (vernachlässigbar und intolerabel) Zwischenstufen (tolerabel, unerwünscht) definiert
 
+** _Axiom der konsistenten Färbung_:
+*** Zelle ist rot, wenn sie Punkte mit quantitativen Risiken enthält, die mindestens so hoch sind, wie anderen roten Zellen und keine Punkte mit so niedrigen Risiken wie in grünen Zellen
+*** Zelle ist grün, wenn sie Punkte enthält, deren Risiken mindestens so niedrig sind, wie andere grüne Zellen und keine Punkte darin so hohe Risiken wie in roten Zellen vorweisen
+*** Zelle ist in Zwischenfarbe(n), wenn sie zwischen roter und grüner Zelle liegt oder sie sowohl Punkte mit höheren Risiken als einige rote Zellen, als auch Punkte mit niedrigeren Risiken als einige grüne Zelle enthält
+
+* *Auflösung der Risikomatrix*:
+** Range Compression (schwache Auflösung/ wenige Farbstufen) vs. zu starke Auflösung (viele Farbstufen)
+** Norm mit zu starker Auflösung, es kommt zu Rangreihenfolgefehlern: quantitativ kleinere Risiken erhalten teilweise eine höhere Priorisierung/Kategorisierung als ein quantiativ größeres Risiko
+** siehe "Analyse DIN EN 50126.pdf"
+
+* _TODO: Translationsinvarianz an dieser Norm testen_
+** *Translationsinvarianz*: gleiche Änderung in allen RIsiken sollte das relative Ranking nicht beeinflussen
+
+* _TODO: Ansatz: Gitterlinien in Risikomatrix so platzieren (evt. Skalen nicht linear normieren, sodass maximaler Verlust durch falsch klassifizierte Risiken minimiert wird)
+
+* _Fragen_:
+** 5x5 Matrix und (_auch 4x6 Matrix, da sie weniger Felder hat?_) muss genau 3 Farben haben (3 Risikostufen), anonsten kann sie eine falsche Präzision suggerieren und zu Inkonsistenzen führen
