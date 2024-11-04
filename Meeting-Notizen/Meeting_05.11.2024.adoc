@@ -1,0 +1,16 @@
+# Vorbereitung Projektseminar-Treff
+
+## Fragen
+* Wie stark soll die Streuung sein bzw. wie kann man sinnvolle Varianzen ermitteln? Was ist realisitische Varianz, wie kann das objektiv festgemacht werden?
+* Was soll mit Programm konkret untersucht werden? -> Verteilung der simulierten Punkte auf Risikoklassen bereits getan
+* 5x5 Matrix und (_auch 4x6 Matrix, da sie weniger Felder hat?_) muss genau 3 Farben haben (3 Risikostufen), anonsten kann sie eine falsche Präzision suggerieren und zu Inkonsistenzen führen
+
+## Agenda
+* Vorstellung Prototyp inkl. Fragen dazu (evt. auch Prototyp von Tillmann)
+* wie weitergehend mit Prototyp untersuchungen machen?
+* Vorstellung Reviewergebnisse von Literatur inkl. Fragen
+
+## Vorschlag was weiter zu tun ist
+* Skalierung hinterfragen (nicht mehr linear)
+* Kategorien untersuchen (evt. nur 3 Farben, ist da weniger Ungenauigkeit?)
+* weitere Punkt mit Literatur erarbeiten
