@@ -196,9 +196,28 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
 # Beispiel: Aufruf der Simulation
 n_simulations = 2000
 frequency_mean = 1/3 # oder 5/6
-frequency_var = 0.005
+frequency_var = 0.005 # Todo: STandardabweichung eingeben
 severity_mean = 0.5 # oder 0.25
 severity_var = 0.005
+# TODO: schauen bei Normalverteilung (95% der Werte liegen innerhalb von 2 Standardabweichungen)
+# Nutzer gibt als Unsicherheit +/-1% und Tool rechnet aus, wie der Wert gebildet wird
+
+# Einflussfaktoren, womit man spielen kann: Unsicherheit (done), Varianz, Einteilung, wv. Farben (dafür gute 5x5 Matrix rausholen und das gleiche machen und vergleichen)
+# Rechereche über ZUverlässigkeit bzgl. Varianz
+# interaktive GUI (Parameter manuell eingeben und dann simulieren und dann Auswertung)
+
+# Zahlennorm für Bewertung der Risikomatrix finden: 0 - 1 (0 = zufällige Zuordnung, 1= immer korrekt) als Maß (Benchmark)
+
+# unterschiecliche EInteilungsarten für Matrix als Parameter der GUI(siehe Literatur)
+
+#Varianz errechnen sie Zettel mit variablen Parameter in GUI (in %)
+
+#1. gute Matrix testen
+#2. +/- % zu Sigma /Varianz
+#3. über Benchmark nachdenken (für ähnliche Produkte muss Einteilung ähnlich sein)
+# * aus allen 2000 Punkten Risiko-Wert quantiativ errechnen und ordnen und in Kategorien einteilen -> darf nicht extrem auseinander liegen
+# * quantiative Produkte als Vergleichsmaßstab zu Farben
+#4. GUI
 
 # Aufruf der Simulationsfunktion
 simulate_risk_matrix(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
