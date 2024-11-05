@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 from matplotlib.colors import ListedColormap
-
+from matplotlib.colors import ListedColormap, BoundaryNorm
 
 # Funktion zur Risikomatrix nach DIN EN 50126
 def risk_matrix(frequency, severity):
@@ -156,7 +156,7 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     backgroundColors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']  # Softer shades
     risk_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
 
-    cmap = ListedColormap(backgroundColors)
+    cmap_background = ListedColormap(backgroundColors)
     cmap_risk = ListedColormap(risk_colors)
 
     
@@ -176,10 +176,12 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     Y = np.linspace(0, 1, risk_matrix_vals.shape[0] + 1)  # 7 values for rows (6 categories)
     
     # Plot the matrix as a background using pcolormesh with subtle colors
-    p = plt.pcolormesh(X, Y, risk_matrix_vals[::-1], cmap=cmap, edgecolors='k', shading='auto', alpha=0.5)
-    
+    p = plt.pcolormesh(X, Y, risk_matrix_vals[::-1], cmap=cmap_background, edgecolors='k', shading='auto', alpha=0.5)
 
-    plt.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, alpha=0.6, edgecolor='black')
+    norm = BoundaryNorm([1, 2, 3, 4, 5], cmap_risk.N)
+
+    scatter = plt.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, norm=norm, alpha=0.6, edgecolor='black')
+    
     plt.scatter([sev_mean], [freq_mean], color='blue', s=200, label='Erwartungswert', edgecolor='black')
 
     plt.title('Scatterplot der simulierten Häufigkeit und Schwere\nmit Erwartungswert-Markierung')
@@ -194,9 +196,9 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
 
 # Beispiel: Aufruf der Simulation
 n_simulations = 2000
-frequency_mean = 0.3
+frequency_mean = 0.333
 frequency_var = 0.005
-severity_mean = 0.2
+severity_mean = 0.5
 severity_var = 0.005
 
 # Aufruf der Simulationsfunktion
