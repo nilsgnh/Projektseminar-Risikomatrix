@@ -10,7 +10,7 @@ def risk_matrix(frequency, severity):
         [3, 4, 4, 4],   # Häufig
         [2, 3, 4, 4],   # Wahrscheinlich
         [2, 3, 3, 4],   # Gelegentlich
-        [1, 2, 2, 3],   # Selten
+        [1, 2, 3, 3],   # Selten
         [1, 1, 2, 2],   # Unwahrscheinlich
         [1, 1, 1, 1]    # Unvorstellbar
     ]
