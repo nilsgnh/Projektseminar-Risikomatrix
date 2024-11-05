@@ -67,22 +67,20 @@ def plot_priority_distribution(priorities):
     # Erstellen eines Count DataFrames für die Häufigkeiten
     priority_counts = priority_categories.value_counts().reindex(priority_labels.values()).fillna(0)
 
-    custom_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
+    matrix_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
     
-    # Erstellen des Balkendiagramms mit Hue, um die Fehlermeldung zu vermeiden
+    # Erstellen des Balkendiagramms
     plt.figure(figsize=(8, 6))
-    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette=custom_colors)
+    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette=matrix_colors)
 
     # Hinzufügen von Häufigkeitswerten über den Balken
     for i, count in enumerate(priority_counts.values):
         ax.text(i, count + 0.5, f'{int(count)}', ha='center', va='bottom', fontweight='bold')
 
-    # Plot-Details
     plt.title("Verteilung der Risikoprioritäten in der Simulation")
     plt.xlabel("Priorität")
     plt.ylabel("Häufigkeit")
-    plt.xticks(rotation=45)
-    plt.show()
+    #plt.show()
 
 # Simulationsfunktion
 def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
@@ -149,17 +147,15 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     plt.title("Absolute Häufigkeit der spezifischen Felder in der Risikomatrix")
     plt.xlabel("Schwere")
     plt.ylabel("Häufigkeit")
-    plt.show()
+    #plt.show()
 
     # Scatterplot der simulierten Häufigkeit und Schwere
-
-    backgroundColors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']  # Softer shades
+    background_colors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']
     risk_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
 
-    cmap_background = ListedColormap(backgroundColors)
+    cmap_background = ListedColormap(background_colors)
     cmap_risk = ListedColormap(risk_colors)
 
-    
     risk_matrix_vals = np.array([
         [3, 4, 4, 4], 
         [2, 3, 4, 4],  
@@ -171,26 +167,29 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
 
     plt.figure(figsize=(10, 6))
 
-    # Create mesh grid coordinates
+    # Erzeugung des Matrix-Hintergrunds
     X = np.linspace(0, 1, risk_matrix_vals.shape[1] + 1)  # 5 values for columns (4 categories)
     Y = np.linspace(0, 1, risk_matrix_vals.shape[0] + 1)  # 7 values for rows (6 categories)
     
     # Plot the matrix as a background using pcolormesh with subtle colors
     p = plt.pcolormesh(X, Y, risk_matrix_vals[::-1], cmap=cmap_background, edgecolors='k', shading='auto', alpha=0.5)
 
+    # Normierung für die Farben der Plots
     norm = BoundaryNorm([1, 2, 3, 4, 5], cmap_risk.N)
 
     scatter = plt.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, norm=norm, alpha=0.6, edgecolor='black')
     
-    plt.scatter([sev_mean], [freq_mean], color='blue', s=200, label='Erwartungswert', edgecolor='black')
+    # Erwartungswert plot
+    plt.scatter([sev_mean], [freq_mean], color='lightgrey', s=200, label='Erwartungswert', edgecolor='black')
 
-    plt.title('Scatterplot der simulierten Häufigkeit und Schwere\nmit Erwartungswert-Markierung')
+    plt.title('Scatterplot der simulierten Häufigkeit und Schwere')
     plt.xlabel('Normierte Schwere (0-1)')
     plt.ylabel('Normierte Häufigkeit (0-1)')
 
     plt.xlim(0, 1)
     plt.ylim(0, 1)
 
+    plt.legend()
     plt.grid(False)
     plt.show()
 
