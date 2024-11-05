@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+from matplotlib.colors import ListedColormap
+
 
 # Funktion zur Risikomatrix nach DIN EN 50126
 def risk_matrix(frequency, severity):
@@ -150,18 +152,44 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     plt.show()
 
     # Scatterplot der simulierten Häufigkeit und Schwere
-    plt.figure(figsize=(10, 6))
-    plt.scatter(severities, frequencies, c=priorities, cmap='YlGnBu', alpha=0.6, edgecolor='black')
-    plt.colorbar(label='Risikopriorität')
 
-    # Erwartungswert-Markierung
+    backgroundColors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']  # Softer shades
+    risk_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
+
+    cmap = ListedColormap(backgroundColors)
+    cmap_risk = ListedColormap(risk_colors)
+
+    
+    risk_matrix_vals = np.array([
+        [3, 4, 4, 4], 
+        [2, 3, 4, 4],  
+        [2, 3, 3, 4],  
+        [1, 2, 3, 3],  
+        [1, 1, 2, 2], 
+        [1, 1, 1, 1] 
+    ])
+
+    plt.figure(figsize=(10, 6))
+
+    # Create mesh grid coordinates
+    X = np.linspace(0, 1, risk_matrix_vals.shape[1] + 1)  # 5 values for columns (4 categories)
+    Y = np.linspace(0, 1, risk_matrix_vals.shape[0] + 1)  # 7 values for rows (6 categories)
+    
+    # Plot the matrix as a background using pcolormesh with subtle colors
+    p = plt.pcolormesh(X, Y, risk_matrix_vals[::-1], cmap=cmap, edgecolors='k', shading='auto', alpha=0.5)
+    
+
+    plt.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, alpha=0.6, edgecolor='black')
     plt.scatter([sev_mean], [freq_mean], color='blue', s=200, label='Erwartungswert', edgecolor='black')
 
     plt.title('Scatterplot der simulierten Häufigkeit und Schwere\nmit Erwartungswert-Markierung')
     plt.xlabel('Normierte Schwere (0-1)')
     plt.ylabel('Normierte Häufigkeit (0-1)')
-    plt.legend()
-    plt.grid(True)
+
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+
+    plt.grid(False)
     plt.show()
 
 # Beispiel: Aufruf der Simulation
