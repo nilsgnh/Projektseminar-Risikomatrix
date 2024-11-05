@@ -195,9 +195,9 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
 
 # Beispiel: Aufruf der Simulation
 n_simulations = 2000
-frequency_mean = 0.333
+frequency_mean = 1/3 # oder 5/6
 frequency_var = 0.005
-severity_mean = 0.5
+severity_mean = 0.5 # oder 0.25
 severity_var = 0.005
 
 # Aufruf der Simulationsfunktion

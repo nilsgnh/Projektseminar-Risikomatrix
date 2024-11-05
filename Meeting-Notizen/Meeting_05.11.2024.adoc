@@ -6,9 +6,14 @@
 * 5x5 Matrix und (_auch 4x6 Matrix, da sie weniger Felder hat?_) muss genau 3 Farben haben (3 Risikostufen), anonsten kann sie eine falsche Präzision suggerieren und zu Inkonsistenzen führen
 
 ## Agenda
-* Vorstellung Prototyp inkl. Fragen dazu (evt. auch Prototyp von Tillmann)
-* wie weitergehend mit Prototyp untersuchungen machen?
+* Vorstellung Prototyp inkl. Fragen dazu
+** kritische Punkte: (0.33,0.5) und (5/6,0.25) da an Grenze von 3 Risikoklassen
+
 * Vorstellung Reviewergebnisse von Literatur inkl. Fragen
+* wie weitergehend mit Prototyp untersuchungen machen?
+** Untersuchungen zu Varianz
+** Untersuchungen zu Achseneinteilung (anders als linear)
+** Untersuchungen zu Farbgebung (evt. nur 3 Farben)
 
 ## Vorschlag was weiter zu tun ist
 * Skalierung hinterfragen (nicht mehr linear)
