@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, BoundaryNorm
 
 # Funktion zur Risikomatrix nach DIN EN 50126
 def risk_matrix(frequency, severity):
@@ -10,7 +12,7 @@ def risk_matrix(frequency, severity):
         [3, 4, 4, 4],   # Häufig
         [2, 3, 4, 4],   # Wahrscheinlich
         [2, 3, 3, 4],   # Gelegentlich
-        [1, 2, 2, 3],   # Selten
+        [1, 2, 3, 3],   # Selten
         [1, 1, 2, 2],   # Unwahrscheinlich
         [1, 1, 1, 1]    # Unvorstellbar
     ]
@@ -64,21 +66,21 @@ def plot_priority_distribution(priorities):
 
     # Erstellen eines Count DataFrames für die Häufigkeiten
     priority_counts = priority_categories.value_counts().reindex(priority_labels.values()).fillna(0)
+
+    matrix_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
     
-    # Erstellen des Balkendiagramms mit Hue, um die Fehlermeldung zu vermeiden
+    # Erstellen des Balkendiagramms
     plt.figure(figsize=(8, 6))
-    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette="YlGnBu")
+    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette=matrix_colors)
 
     # Hinzufügen von Häufigkeitswerten über den Balken
     for i, count in enumerate(priority_counts.values):
         ax.text(i, count + 0.5, f'{int(count)}', ha='center', va='bottom', fontweight='bold')
 
-    # Plot-Details
     plt.title("Verteilung der Risikoprioritäten in der Simulation")
     plt.xlabel("Priorität")
     plt.ylabel("Häufigkeit")
-    plt.xticks(rotation=45)
-    plt.show()
+    #plt.show()
 
 # Simulationsfunktion
 def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
@@ -145,28 +147,57 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     plt.title("Absolute Häufigkeit der spezifischen Felder in der Risikomatrix")
     plt.xlabel("Schwere")
     plt.ylabel("Häufigkeit")
-    plt.show()
+    #plt.show()
 
     # Scatterplot der simulierten Häufigkeit und Schwere
+    background_colors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']
+    risk_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
+
+    cmap_background = ListedColormap(background_colors)
+    cmap_risk = ListedColormap(risk_colors)
+
+    risk_matrix_vals = np.array([
+        [3, 4, 4, 4], 
+        [2, 3, 4, 4],  
+        [2, 3, 3, 4],  
+        [1, 2, 3, 3],  
+        [1, 1, 2, 2], 
+        [1, 1, 1, 1] 
+    ])
+
     plt.figure(figsize=(10, 6))
-    plt.scatter(severities, frequencies, c=priorities, cmap='YlGnBu', alpha=0.6, edgecolor='black')
-    plt.colorbar(label='Risikopriorität')
 
-    # Erwartungswert-Markierung
-    plt.scatter([sev_mean], [freq_mean], color='blue', s=200, label='Erwartungswert', edgecolor='black')
+    # Erzeugung des Matrix-Hintergrunds
+    X = np.linspace(0, 1, risk_matrix_vals.shape[1] + 1)  # 5 values for columns (4 categories)
+    Y = np.linspace(0, 1, risk_matrix_vals.shape[0] + 1)  # 7 values for rows (6 categories)
+    
+    # Plot the matrix as a background using pcolormesh with subtle colors
+    p = plt.pcolormesh(X, Y, risk_matrix_vals[::-1], cmap=cmap_background, edgecolors='k', shading='auto', alpha=0.5)
 
-    plt.title('Scatterplot der simulierten Häufigkeit und Schwere\nmit Erwartungswert-Markierung')
+    # Normierung für die Farben der Plots
+    norm = BoundaryNorm([1, 2, 3, 4, 5], cmap_risk.N)
+
+    scatter = plt.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, norm=norm, alpha=0.6, edgecolor='black')
+    
+    # Erwartungswert plot
+    plt.scatter([sev_mean], [freq_mean], color='lightgrey', s=200, label='Erwartungswert', edgecolor='black')
+
+    plt.title('Scatterplot der simulierten Häufigkeit und Schwere')
     plt.xlabel('Normierte Schwere (0-1)')
     plt.ylabel('Normierte Häufigkeit (0-1)')
+
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+
     plt.legend()
-    plt.grid(True)
+    plt.grid(False)
     plt.show()
 
 # Beispiel: Aufruf der Simulation
 n_simulations = 2000
-frequency_mean = 0.3
+frequency_mean = 0.333
 frequency_var = 0.005
-severity_mean = 0.2
+severity_mean = 0.5
 severity_var = 0.005
 
 # Aufruf der Simulationsfunktion
