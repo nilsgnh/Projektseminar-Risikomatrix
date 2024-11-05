@@ -64,10 +64,12 @@ def plot_priority_distribution(priorities):
 
     # Erstellen eines Count DataFrames für die Häufigkeiten
     priority_counts = priority_categories.value_counts().reindex(priority_labels.values()).fillna(0)
+
+    custom_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
     
     # Erstellen des Balkendiagramms mit Hue, um die Fehlermeldung zu vermeiden
     plt.figure(figsize=(8, 6))
-    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette="YlGnBu")
+    ax = sns.barplot(x=priority_counts.index, y=priority_counts.values, hue=priority_counts.index, dodge=False, legend=False, palette=custom_colors)
 
     # Hinzufügen von Häufigkeitswerten über den Balken
     for i, count in enumerate(priority_counts.values):
