@@ -1,11 +1,13 @@
-# Vorbereitung Projektseminar-Treff
+# Meeting 05.11.2024
 
-## Fragen
+## Vorbereitung
+
+### Fragen
 * Wie stark soll die Streuung sein bzw. wie kann man sinnvolle Varianzen ermitteln? Was ist realisitische Varianz, wie kann das objektiv festgemacht werden?
 * Was soll mit Programm konkret untersucht werden? -> Verteilung der simulierten Punkte auf Risikoklassen bereits getan
 * 5x5 Matrix und (_auch 4x6 Matrix, da sie weniger Felder hat?_) muss genau 3 Farben haben (3 Risikostufen), anonsten kann sie eine falsche Präzision suggerieren und zu Inkonsistenzen führen
 
-## Agenda
+### Agenda
 * Vorstellung Prototyp inkl. Fragen dazu
 ** kritische Punkte: (0.33,0.5) und (5/6,0.25) da an Grenze von 3 Risikoklassen
 * Vorstellung Reviewergebnisse von Literatur inkl. Fragen
@@ -14,7 +16,34 @@
 ** Untersuchungen zu Achseneinteilung (anders als linear)
 ** Untersuchungen zu Farbgebung (evt. nur 3 Farben)
 
-## Vorschlag was weiter zu tun ist
+### Vorschlag was weiter zu tun ist
 * Skalierung hinterfragen (nicht mehr linear)
 * Kategorien untersuchen (evt. nur 3 Farben, ist da weniger Ungenauigkeit?)
 * weitere Punkt mit Literatur erarbeiten
+
+## Protokoll
+
+### Mitschrift
+* schauen bei Normalverteilung, die für Punktgenerierung genutzt wird, dass Eingabe der Streuung als Prozentwert eingegeben und dann umgerechnet wird
+** nutze Eigenschaft, dass 95% der Werte innerhalb von 2 Standardabweichunge liegen und dass die Dichte der Normalverteilung symmetrisch ist
+** Einbringen dieser Berechnung in Programm: Nutzer gibt als Unsicherheit +/-1% und Tool rechnet Standardabweichung/Varianz aus
+* Einflussfaktoren, womit man spielen kann: Unsicherheit (done), Varianz, Einteilung, wv. Farben 
+** für Farbeinteilung gute 5x5 Matrix rausholen und das gleiche Auswertung, wie bei bereits betrachteter Norm, machen und mit bisheriger vergleichen (die ersten beiden Farb-Risikokategorien der bisherigen Norm bei Vergleich zusammenlegen)
+* evtl. literaturtechnische Rechereche über zuverlässige Varianz bzw. Abweichungen für Punktesimulation
+* interaktive GUI (Parameter manuell eingeben, dann simulieren und dann Auswertung anzeigen)
+* Zahlennorm für Bewertung der Risikomatrix finden: 0 - 1 (0 = zufällige Zuordnung, 1= immer korrekt) als Maß (Benchmark)
+* unterschiedliche Einteilungsarten für Skalen der Matrix als Parameter der GUI (siehe Literatur)
+* Varianz errechnen (siehe Zettel) aus variablen Parameter in der GUI (%-Wert)
+
+### To-Dos
+* GUI für Prototypen erstellen (interaktiv, sodass mehrere Parameter verändert werden können)
+* ideale 5x5-Matrix aus Literatur entnehmen und in Prototypen zum Vergleich als weiteres Fenster einbauen
+* Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist
+** Angabe von %, wie stark von Erwartungswert abgewichen werden darf -> Umrechnung in Standardabweichung zur besseren Verständlichkeit und dann erst in Varianz
+* Konzept für Benchmark entwerfen/darüber nachdenken
+** d.h. Bewertungsmaßstab für Risikomatrizen
+** z.B. Produkte von quantitativen Risiken müssen mit qualitativer Kategorisierung ähnlich sein (in einer Kategorie keine großen quantiativen Produkt-Risikounterschiede)
+*** d.h. aus allen n generierten Punkten den Risiko-Wert quantitativ errechnen, diese ordnen und dann auch in Kategorien einteilen -> dann mit den Kategorien der qualitativen Risikomatrix vergleichen
+*** quantitative Produkte dient dann als Vergleichsmaßstab zu farblicher Einteilung
+* _Einteilungsarten der Skalen (siehe Literatur) in GUI einstellbar machen_
+* _in Programm eine variable Matrix-Norm einbringen (d.h. entweder wählt Nutzer zwischen Matrix-Normen oder Eingabe seiner eigenen)_

@@ -1,0 +1,7 @@
+# Meeting 05.11.2024
+
+## Vorbereitung Projektseminar-Treff
+
+### Fragen
+* Wie sollen wir unsere Arbeit dokumentieren bzw. was soll dokumentiert sein?
+** Vorschlag: Dokumentation des Programms (Funktionsweise, Struktur, etc.), der erreichten Ergebnisse/Erkenntnisse (Ergebnisse der Untersuchungen, etc.) und von Theorie (z.B. eigens erstelltes Benchmark-Konzept, analog herausgefundene Schwächen der Risikomatrix-Norm anhand von Literatur, etc.)
