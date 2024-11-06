@@ -84,7 +84,7 @@ def plot_priority_distribution(priorities):
 
 # Simulationsfunktion
 def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
-    # Generierung von Zufallswerten, aber nur zwischen 0 und 1
+    # Generierung von Zufallswerten, aber nur zwischen 0 und 1 (Normalverteilung)
     frequencies = np.random.normal(freq_mean, np.sqrt(freq_var), n_simulations)
     severities = np.random.normal(sev_mean, np.sqrt(sev_var), n_simulations)
     
