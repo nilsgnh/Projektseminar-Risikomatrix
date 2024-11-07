@@ -12,12 +12,17 @@
         </header>
     </main>
 
-    <form method="POST" action="/display">
+    <form method="GET" action="/display">
         <input type="text" name="input" id="input" placeholder="Enter your text here!">
         <button type="submit">Click me!</button>
     </form>
 
     <br>
-    <div id="output">{{input}}</div> <!-- Hier wird das Ergebnis der Python-Funktion angezeigt -->
+
+    <div id="plot">{{ plot|safe }}</div>
+    <div id="plot">{{ plot2|safe }}</div>
+    <div id="plot">{{ plot3|safe }}</div>
+
+
 </body>
 </html>
