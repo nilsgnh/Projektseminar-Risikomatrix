@@ -1,6 +1,6 @@
 # main.py
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for
-from logic import simulate_risk_matrix, plot_priority_distribution, heatmap_svg, scatter_svg
+from model import simulate_risk_matrix, plot_priority_distribution, heatmap_svg, scatter_svg
 
 
 main_bp = Blueprint('main', __name__)
@@ -9,15 +9,24 @@ main_bp = Blueprint('main', __name__)
 def main():
     return render_template("index.html")
 
-@main_bp.route('/display', methods=['GET'])
-def display():
-    n_simulations = 2000
-    frequency_mean = 1/3 
-    frequency_var = 0.005 
-    severity_mean = 0.5 
-    severity_var = 0.005
+@main_bp.route('/submit', methods=['GET', 'POST'])
+def set_parameters():
+    if request.method == 'POST':
+        n_simulations = int(request.form['n_simulations'])
+        frequency_mean = float(request.form['frequency_mean'])
+        frequency_var = float(request.form['frequency_var'])
+        severity_mean = float(request.form['severity_mean'])
+        severity_var = float(request.form['severity_var'])
+
     data = simulate_risk_matrix(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
-    plot = plot_priority_distribution(data, n_simulations)
-    plot2 = heatmap_svg(data, n_simulations)
-    plot3 = scatter_svg(data, severity_mean, frequency_mean, n_simulations)
-    return render_template("index.html", plot=plot, plot2=plot2, plot3=plot3)
+
+    frequencies = data[0]
+    severities = data[1]
+    priorities = data[2]
+    matrix_felder = data[3]
+
+
+    bar_plot = plot_priority_distribution(priorities)
+    heat_plot = heatmap_svg(matrix_felder)
+    scatter_plot = scatter_svg(severity_mean, frequency_mean, priorities, severities, frequencies)
+    return render_template("index.html", plot=bar_plot, plot2=heat_plot, plot3=scatter_plot)

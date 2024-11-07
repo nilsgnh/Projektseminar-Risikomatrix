@@ -1,4 +1,7 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Use the 'Agg' backend to avoid GUI
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -64,31 +67,21 @@ def risk_matrix(frequency, severity):
 
 
 
-def plot_priority_distribution(data, n_simulations):
-    priorities = []
-
-    for i in range(n_simulations):
-        freq = data[0][i]
-        sev = data[1][i]
-        
-        # Einordnung in die Risikomatrix
-        priority = risk_matrix(freq, sev)
-        priorities.append(priority[0])
+def plot_priority_distribution(priorities):
 
     priority_labels = {1: "Vernachlässigbar", 2: "Tolerabel", 3: "Unerwünscht", 4: "Intolerabel"}
     priority_categories = pd.Series(priorities).map(priority_labels)
     priority_counts = priority_categories.value_counts().reindex(priority_labels.values()).fillna(0)
     matrix_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
 
-    # Create a new figure and axis
     fig = Figure(figsize=(8, 6))
-    FigureCanvas(fig)  # Attach the canvas to the figure for rendering
+    FigureCanvas(fig)
     ax = fig.add_subplot(111)
 
-    # Plotting with seaborn on the given axis
     sns.barplot(
         ax=ax, x=priority_counts.index, y=priority_counts.values, 
-        palette=matrix_colors, dodge=False
+        hue=priority_counts.index, 
+        palette=matrix_colors, dodge=False, legend=False
     )
 
     # Add value labels on the bars
@@ -113,17 +106,7 @@ def plot_priority_distribution(data, n_simulations):
 
 
 
-def heatmap_svg(data, n_simulations):
-    matrix_felder = []
-
-    # Simulation der Risikomatrix
-    for i in range(n_simulations):
-        freq = data[0][i]
-        sev = data[1][i]
-        
-        # Einordnung in die Risikomatrix
-        matrix_feld = risk_matrix(freq, sev)
-        matrix_felder.append(matrix_feld[1])
+def heatmap_svg(matrix_felder):
 
     # Zählung, wie oft jedes Feld ausgewählt wurde
     feld_counts = np.zeros(24, dtype=int)  # Für 24 Felder der Matrix
@@ -171,20 +154,23 @@ def simulate_risk_matrix(n_simulations, freq_mean, freq_var, sev_mean, sev_var):
     frequencies = np.clip(frequencies, 0, 1)
     severities = np.clip(severities, 0, 1)
 
-    return frequencies, severities
-
-
-def scatter_svg(data, sev_mean, freq_mean, n_simulations):
     priorities = []
+    matrix_felder = []
 
+    # Simulation der Risikomatrix
     for i in range(n_simulations):
-        freq = data[0][i]
-        sev = data[1][i]
+        freq = frequencies[i]
+        sev = severities[i]
         
         # Einordnung in die Risikomatrix
-        priority = risk_matrix(freq, sev)
-        priorities.append(priority[0])
+        priority, matrix_feld = risk_matrix(freq, sev)
+        priorities.append(priority)
+        matrix_felder.append(matrix_feld)
 
+    return frequencies, severities, priorities, matrix_felder
+
+
+def scatter_svg(sev_mean, freq_mean, priorities, severities, frequencies):
     background_colors = ['lightgreen', 'lightblue', 'moccasin', 'lightcoral']
     risk_colors = ["#92D050", "#8EB4E3", "#FFC000", "#FF0000"]
 
@@ -215,8 +201,10 @@ def scatter_svg(data, sev_mean, freq_mean, n_simulations):
     # Normalization for scatter plot colors
     norm = BoundaryNorm([1, 2, 3, 4, 5], cmap_risk.N)
 
+    print (frequencies)
+
     # Scatter plot of the data
-    scatter = ax.scatter(data[1], data[0], c=priorities, cmap=cmap_risk, norm=norm, alpha=0.6, edgecolor='black')
+    scatter = ax.scatter(severities, frequencies, c=priorities, cmap=cmap_risk, norm=norm, alpha=0.6, edgecolor='black')
 
     # Expectation value plot
     ax.scatter([sev_mean], [freq_mean], color='lightgrey', s=200, label='Erwartungswert', edgecolor='black')
