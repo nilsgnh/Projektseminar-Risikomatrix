@@ -36,14 +36,15 @@
 * Varianz errechnen (siehe Zettel) aus variablen Parameter in der GUI (%-Wert)
 
 ### To-Dos
-* GUI für Prototypen erstellen (interaktiv, sodass mehrere Parameter verändert werden können)
-* ideale 5x5-Matrix aus Literatur entnehmen und in Prototypen zum Vergleich als weiteres Fenster einbauen
-* Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist
+* GUI für Prototypen erstellen (interaktiv, sodass mehrere Parameter verändert werden können) -> *done*
+* ideale 5x5-Matrix aus Literatur entnehmen und in Prototypen zum Vergleich als weiteres Fenster einbauen -> *in process*
+* Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist -> *done*
 ** Angabe von %, wie stark von Erwartungswert abgewichen werden darf -> Umrechnung in Standardabweichung zur besseren Verständlichkeit und dann erst in Varianz
-* Konzept für Benchmark entwerfen/darüber nachdenken
+* Konzept für Benchmark entwerfen/darüber nachdenken -> *in process*
 ** d.h. Bewertungsmaßstab für Risikomatrizen
 ** z.B. Produkte von quantitativen Risiken müssen mit qualitativer Kategorisierung ähnlich sein (in einer Kategorie keine großen quantiativen Produkt-Risikounterschiede)
 *** d.h. aus allen n generierten Punkten den Risiko-Wert quantitativ errechnen, diese ordnen und dann auch in Kategorien einteilen -> dann mit den Kategorien der qualitativen Risikomatrix vergleichen
 *** quantitative Produkte dient dann als Vergleichsmaßstab zu farblicher Einteilung
-* _Einteilungsarten der Skalen (siehe Literatur) in GUI einstellbar machen_
-* _in Programm eine variable Matrix-Norm einbringen (d.h. entweder wählt Nutzer zwischen Matrix-Normen oder Eingabe seiner eigenen)_
+* _Einteilungsarten der Skalen (siehe Literatur) in GUI einstellbar machen_ *(noch nicht)*
+** nicht nur linear, sondern auch logarithmisch, exponentiell, etc.-> *todo wenn Zeit* 
+* _in Programm eine variable Matrix-Norm einbringen (d.h. entweder wählt Nutzer zwischen Matrix-Normen oder Eingabe seiner eigenen)_ -> *in process*
