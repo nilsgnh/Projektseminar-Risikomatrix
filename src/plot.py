@@ -91,8 +91,9 @@ def plotScatter(sev_mean, freq_mean, priorities, severities, frequencies, matrix
 
       ax.pcolormesh(X, Y, matrix.representation[::-1], cmap=chartColors, edgecolors='k', shading='auto', alpha=0.5)
 
-      norm = BoundaryNorm([1, 2, 3, 4, 5], chartColors.N)
-
+      unique_classes = np.unique(matrix.representation)
+      boundaries = np.arange(min(unique_classes), max(unique_classes) + 2)  # Grenzen für die Klassen
+      norm = BoundaryNorm(boundaries, chartColors.N)
       scatter = ax.scatter(severities, frequencies, c=priorities, cmap=chartColors, norm=norm, alpha=0.6, edgecolor='black')
 
 
