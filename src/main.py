@@ -54,15 +54,15 @@ def set_parameters():
     y_beschriftungen = ["Häufig", "Wahrscheinlich", "Gelegentlich", "Selten", "Unwahrscheinlich", "Unvorstellbar", "test"]
     x_beschriftungen = ["Unbedeutend", "Marginal", "Kritisch", "Katastrophal"]
 
-    # Instantiate the Matrix class with sample data
     matrix = Matrix(matrix_rep, field_nums, risk_labels, risk_colors, x_beschriftungen, y_beschriftungen)
 
-    data = simulateRiskMatrix(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var, matrix)
+    points = generatePoints(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
+    frequencies = points[0]
+    severities = points[1]
 
-    frequencies = data[0]
-    severities = data[1]
-    priorities = data[2]
-    matrix_felder = data[3]
+    pointsInMatrix = simulateRiskMatrix(frequencies, severities, matrix)
+    priorities = pointsInMatrix[0]
+    matrix_felder = pointsInMatrix[1]
 
     bar_plot = plotPriorityDistribution(priorities, matrix)
     heat_plot = plotHeatmap(matrix_felder, matrix)

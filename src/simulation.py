@@ -1,22 +1,25 @@
 import numpy as np
 from scipy.stats import norm
 
-
-def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, severityMean, severityVariance, matrix):
+def generatePoints(nSimulations, frequencyMean, frequencyVariance, severityMean, severityVariance):
     
     # Generate random values, ensuring they are between 0 and 1 (normal distribution)
     frequencies = np.random.normal(frequencyMean, np.sqrt(frequencyVariance), nSimulations)
     severities = np.random.normal(severityMean, np.sqrt(severityVariance), nSimulations)
-    
-    # Keep values within [0, 1] range
+        
     frequencies = np.clip(frequencies, 0, 1)
     severities = np.clip(severities, 0, 1)
 
+    return frequencies, severities
+    
+
+def simulateRiskMatrix(frequencies, severities, matrix):
+    
     priorities = []
     fieldNum = []
-
+    
     # Simulation der Risikomatrix
-    for i in range(nSimulations):
+    for i in range(len(frequencies)):
         freq = frequencies[i]
         sev = severities[i]
         
@@ -25,7 +28,7 @@ def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, severityM
         priorities.append(priority)
         fieldNum.append(matrix_feld)
 
-    return frequencies, severities, priorities, fieldNum
+    return priorities, fieldNum
 
 
 
