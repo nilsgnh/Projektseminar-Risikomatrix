@@ -1,56 +1,47 @@
 import numpy as np
 
-
 class Matrix:
+    def __init__(self, representation, fieldNums, riskLabels, riskColors, xLabels, yLabels):
+        self.representation = representation
+        self.rows, self.cols = representation.shape
+        self.fieldNums = fieldNums
+        self.riskLabels = riskLabels
+        self.riskColors = riskColors
+        self.xLabels = xLabels      
+        self.yLabels = yLabels
 
-      def __init__(self, representation, fieldNums, riskLabels, riskColors, xLabels, yLabels):
-            self.representation = representation
-            self.rows, self.cols = representation.shape
-            self.fieldNums = fieldNums
-            self.riskLabels = riskLabels #erwartet wird Dict zB priority_labels = {1: "Vernachlässigbar", 2: "Tolerabel", 3: "Unerwünscht", 4: "Intolerabel"}
-            self.riskColors = riskColors
-            self.xLabels = xLabels
-            self.yLabels = yLabels
-            
-      def computeDataPoint(self, pointFrequency, pointSeverity):
+    def computeDataPoint(self, pointFrequency, pointSeverity):
+      # Berechnung der Häufigkeitsklasse
+      for i in range(1, self.rows + 1):
+            lowerBound = (i - 1) / self.rows
+            upperBound = i / self.rows
 
-            # Berechnung der Häufigkeitsklasse des Punkts (1=am Häufigsten)
-            for i in range(1,self.rows+1): 
-                  lowerBound = i / self.rows
-                  upperBound = (i + 1) / self.rows
+            if pointFrequency == 1:
+                  frequencyCategory = 1
+                  break
 
-                  if pointFrequency < 1/self.rows:
-                        frequencyCategory = self.rows
-                        break
+            if lowerBound <= pointFrequency < upperBound:
+                  frequencyCategory = self.rows - (i - 1)
+                  break
+      else:
+            raise ValueError("Frequency value could not be categorized.")
 
-                  if pointFrequency >= (self.rows - 1)/self.rows:
-                        frequencyCategory = 1
-                        break
+      # Berechnung der Schwereklasse
+      for i in range(1, self.cols + 1):
+            lowerBound = (i - 1) / self.cols
+            upperBound = i / self.cols
 
-                  if lowerBound <= pointFrequency < upperBound:
-                        frequencyCategory = self.rows - i
-                        break
+            if pointSeverity == 1:
+                  severityCategory = self.cols
+                  break
 
-            # Berechnung der Schwere des Punkts
-            for i in range(1,self.cols+1): 
-                  lowerBound = i / self.cols
-                  upperBound = (i + 1) / self.cols
+            if lowerBound <= pointSeverity < upperBound:
+                  severityCategory = i
+                  break
+      else:
+            raise ValueError("Severity value could not be categorized.")
 
-                  if pointSeverity < 1/self.cols:
-                        severityCategory = self.cols
-                        break
+      riskClass = self.representation[frequencyCategory - 1][severityCategory - 1]
+      fieldNum = self.fieldNums[frequencyCategory - 1][severityCategory - 1]
 
-                  if pointFrequency >= (self.cols - 1)/self.cols:
-                        severityCategory = 1
-                        break
-
-                  if lowerBound <= pointSeverity < upperBound:
-                        severityCategory = i+1
-                        break
-
-
-            riskClass = self.representation[frequencyCategory-1][severityCategory-1]
-            fieldNum = self.fieldNums[frequencyCategory-1][severityCategory-1]
-
-            return riskClass, fieldNum
-
+      return riskClass, fieldNum
