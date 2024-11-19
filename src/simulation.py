@@ -13,7 +13,7 @@ def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, sevserity
     severities = np.clip(severities, 0, 1)
 
     priorities = []
-    matrix_felder = []
+    fieldNum = []
 
     # Simulation der Risikomatrix
     for i in range(nSimulations):
@@ -21,11 +21,11 @@ def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, sevserity
         sev = severities[i]
         
         # Einordnung in die Risikomatrix
-        priority, matrix_feld = matrix.computeDataPoints(freq, sev)
+        priority, matrix_feld = matrix.computeDataPoint(freq, sev)
         priorities.append(priority)
-        matrix_felder.append(matrix_feld)
+        fieldNum.append(matrix_feld)
 
-    return frequencies, severities, priorities, matrix_felder
+    return frequencies, severities, priorities, fieldNum
 
 
 
