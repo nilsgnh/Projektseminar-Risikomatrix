@@ -1,0 +1,35 @@
+body {
+      font-family: Arial, sans-serif;
+      max-width: 100vw;
+
+  }
+  
+  header {
+      text-align: center;
+      margin-bottom: 30px;
+  }
+  
+  form {
+      margin-bottom: 30px;
+  }
+  
+  .plot-comparison {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+  }
+  
+  .col {
+      flex: 1;
+      margin: 0 10px;
+  }
+  
+  .plot {
+      margin-bottom: 15px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      text-align: center;
+  }
+  
