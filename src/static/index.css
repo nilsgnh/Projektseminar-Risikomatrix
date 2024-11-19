@@ -23,7 +23,7 @@ header {
 }
   
 form {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
   
 .plot-comparison {
@@ -72,12 +72,13 @@ input[type="submit"]:hover {
 .form-section {
     background-color: #fff;
     padding: 5px;
+    padding-top: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 1100px;
     text-align: center;
-    margin: 0 auto 30px;
+    margin: 0 auto 15px;
 }
 
 form label {
@@ -104,7 +105,7 @@ form label {
     max-width: 1100px;
 }
 
-#h2plots {
+#h2plots, #h2setsim {
     margin: 20px auto;
     background-color: #f9f9f9;
     padding: 10px;
