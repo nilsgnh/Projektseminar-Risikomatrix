@@ -52,7 +52,5 @@ class Matrix:
             riskClass = self.representation[frequencyCategory-1][severityCategory-1]
             fieldNum = self.fieldNums[frequencyCategory-1][severityCategory-1]
 
-            print (fieldNum, pointSeverity, pointFrequency)
-
             return riskClass, fieldNum
 

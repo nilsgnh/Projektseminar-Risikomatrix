@@ -2,11 +2,11 @@ import numpy as np
 from scipy.stats import norm
 
 
-def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, sevserityMean, severityVariance, matrix):
+def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, severityMean, severityVariance, matrix):
     
     # Generate random values, ensuring they are between 0 and 1 (normal distribution)
     frequencies = np.random.normal(frequencyMean, np.sqrt(frequencyVariance), nSimulations)
-    severities = np.random.normal(sevserityMean, np.sqrt(severityVariance), nSimulations)
+    severities = np.random.normal(severityMean, np.sqrt(severityVariance), nSimulations)
     
     # Keep values within [0, 1] range
     frequencies = np.clip(frequencies, 0, 1)
@@ -29,7 +29,7 @@ def simulateRiskMatrix(nSimulations, frequencyMean, frequencyVariance, sevserity
 
 
 
-def convertPercentToStandardDeviation(certainly, percent):
+def conv_perc_std(certainly, percent):
     # z-Quantil für die gegebene Sicherheit berechnen
     z = norm.ppf((certainly / 100) + (1 - (certainly / 100)) / 2)
     
@@ -37,9 +37,7 @@ def convertPercentToStandardDeviation(certainly, percent):
     sigma = (percent / 100) / z
     return sigma
 
-
-
-def convertPercentToVariance(certainly, percent):
+def conv_perc_var(certainly, percent):
     # z-Quantil für die gegebene Sicherheit berechnen
     z = norm.ppf((certainly / 100) + (1 - (certainly / 100)) / 2)
     
