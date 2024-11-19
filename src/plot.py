@@ -45,7 +45,6 @@ def plotPriorityDistribution(priorities, matrix):
 
 
 def plotHeatmap(matrixFelder, matrix):
-      
       feldCounts = np.zeros(matrix.rows*matrix.cols, dtype=int)  
       unique_feld, counts_feld = np.unique(matrixFelder, return_counts=True)
       feldCounts[unique_feld - 1] = counts_feld  
