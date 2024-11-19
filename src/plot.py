@@ -17,7 +17,7 @@ def plotPriorityDistribution(priorities, matrix):
       priorityCategories = pd.Series(priorities).map(matrix.riskLabels)
       priorityCounts = priorityCategories.value_counts().reindex(matrix.riskLabels.values()).fillna(0)
 
-      fig = Figure(figsize=(8, 6))
+      fig = Figure(figsize=(6, 4))
       FigureCanvas(fig)
       ax = fig.add_subplot(111)
 
@@ -45,7 +45,6 @@ def plotPriorityDistribution(priorities, matrix):
 
 
 def plotHeatmap(matrixFelder, matrix):
-      
       feldCounts = np.zeros(matrix.rows*matrix.cols, dtype=int)  
       unique_feld, counts_feld = np.unique(matrixFelder, return_counts=True)
       feldCounts[unique_feld - 1] = counts_feld  
@@ -54,7 +53,7 @@ def plotHeatmap(matrixFelder, matrix):
 
       risiko_matrix_df = pd.DataFrame(matrixReshaped, index=matrix.yLabels, columns=matrix.xLabels)
 
-      fig = Figure(figsize=(10, 6))
+      fig = Figure(figsize=(6, 4))
       FigureCanvas(fig) 
       ax = fig.add_subplot(111)
 
@@ -77,7 +76,7 @@ def plotScatter(sev_mean, freq_mean, priorities, severities, frequencies, matrix
 
       chartColors = ListedColormap(matrix.riskColors)
 
-      fig = Figure(figsize=(10, 6))
+      fig = Figure(figsize=(6, 4))
       FigureCanvas(fig)
       ax = fig.add_subplot(111)
 
