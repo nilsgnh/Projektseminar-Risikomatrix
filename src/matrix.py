@@ -15,7 +15,7 @@ class Matrix:
       def computeDataPoint(self, pointFrequency, pointSeverity):
 
             # Berechnung der Häufigkeitsklasse des Punkts (1=am Häufigsten)
-            for i in range(self.rows):  # Beginnt bei 0
+            for i in range(1,self.rows+1): 
                   lowerBound = i / self.rows
                   upperBound = (i + 1) / self.rows
 
@@ -32,27 +32,27 @@ class Matrix:
                         break
 
             # Berechnung der Schwere des Punkts
-            for i in range(self.cols):  # Beginnt bei 0
+            for i in range(1,self.cols+1): 
                   lowerBound = i / self.cols
                   upperBound = (i + 1) / self.cols
 
                   if pointSeverity < 1/self.cols:
-                        severityCategory = 1
-                        break
-
-                  if pointFrequency >= (self.cols - 1)/self.cols:
                         severityCategory = self.cols
                         break
 
+                  if pointFrequency >= (self.cols - 1)/self.cols:
+                        severityCategory = 1
+                        break
+
                   if lowerBound <= pointSeverity < upperBound:
-                        severityCategory = self.cols - i
+                        severityCategory = i+1
                         break
 
 
             riskClass = self.representation[frequencyCategory-1][severityCategory-1]
             fieldNum = self.fieldNums[frequencyCategory-1][severityCategory-1]
 
-            print (riskClass, fieldNum)
+            print (fieldNum, pointSeverity, pointFrequency)
 
             return riskClass, fieldNum
 
