@@ -1,5 +1,11 @@
 import numpy as np
 
+# representation: 2d np Array mit int werten für risikoKlassen
+# fieldNums:      2d Array mit Abzählung der Felder von links nach rechts
+# riskColors:     Array von Hex Farben. Pro Wert im representation Array eine Farbe, von kleines risiko -> großes Risiko
+# xLabels:        Bezeichner für Schwere-Klassen. length muss größe der Matrix entsprechen
+# yLabels:        Bezeichner für Häufigkeits-Klassen  length muss größe der Matrix entsprechen
+
 class Matrix:
     def __init__(self, representation, fieldNums, riskLabels, riskColors, xLabels, yLabels):
         self.representation = representation

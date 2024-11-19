@@ -13,6 +13,7 @@ def main():
 
 @main_bp.route('/submit', methods=['GET', 'POST'])
 def set_parameters():
+    # taking User Input
     if request.method == 'POST':
         n_simulations = int(request.form['n_simulations'])
         frequency_mean = float(request.form['frequency_mean'])
@@ -21,15 +22,19 @@ def set_parameters():
         severity_perc = float(request.form['severity_perc'])
 
 
+    # converting & to Variance
     frequency_var = conv_perc_var(95, frequency_perc)
     severity_var = conv_perc_var(95, severity_perc)
 
-    matrix = optimalMatrix()
 
+    #generating Points
     points = generatePoints(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
     frequencies = points[0]
     severities = points[1]
 
+
+    #Simulation of first Matrix
+    matrix = optimalMatrix()
     pointsInMatrix = simulateRiskMatrix(frequencies, severities, matrix)
     priorities = pointsInMatrix[0]
     matrix_felder = pointsInMatrix[1]
@@ -38,9 +43,24 @@ def set_parameters():
     heat_plot = plotHeatmap(matrix_felder, matrix)
     scatter_plot = plotScatter(severity_mean, frequency_mean, priorities, severities, frequencies, matrix)
 
-    return render_template("index.html", plot=bar_plot, plot2=heat_plot, plot3=scatter_plot)
+
+    #Simulation of second Matrix
+    matrix1 = dinMatrix()
+    pointsInMatrix1 = simulateRiskMatrix(frequencies, severities, matrix1)
+    priorities1 = pointsInMatrix1[0]
+    matrix_felder1 = pointsInMatrix1[1]
+
+    bar_plot1 = plotPriorityDistribution(priorities1, matrix1)
+    heat_plot1 = plotHeatmap(matrix_felder1, matrix1)
+    scatter_plot1 = plotScatter(severity_mean, frequency_mean, priorities1, severities, frequencies, matrix1)
 
 
+    #render images back to index page
+    return render_template("index.html", bar1=bar_plot, heat1=heat_plot, scatter1=scatter_plot, bar2=bar_plot1, heat2=heat_plot1, scatter2=scatter_plot1)
+
+
+
+# Definition of Din EN 50126 Matrix
 def dinMatrix():
     matrix_rep = np.array([
         [3, 4, 4, 4],   # Häufig
@@ -72,21 +92,23 @@ def dinMatrix():
     return matrix
 
 
+# Definition optimal Matrix by Cox
+
 def optimalMatrix():
     matrix_rep = np.array([
-        [1, 1, 2, 3, 3],   # Häufig
-        [1, 1, 2, 2, 3],   # Wahrscheinlich
-        [1, 1, 1, 2, 2],   # Gelegentlich
-        [1, 1, 1, 1, 1 ],   # Selten
-        [1, 1, 1, 1, 1],   # Unwahrscheinlich
+        [1, 1, 2, 3, 3], 
+        [1, 1, 2, 2, 3], 
+        [1, 1, 1, 2, 2], 
+        [1, 1, 1, 1, 1 ],
+        [1, 1, 1, 1, 1], 
     ])
 
     field_nums = [
-        [1, 2, 3, 4, 5],  # Häufig 
-        [6, 7, 8, 9,10],  # Wahrscheinlich
-        [11, 12, 13, 14, 15],  #  Gelegentlich
-        [16, 17, 18, 19, 20],  # Selten
-        [21, 22, 23, 24, 25],  #  Unwahrscheinlich
+        [1, 2, 3, 4, 5],
+        [6, 7, 8, 9,10],  
+        [11, 12, 13, 14, 15],
+        [16, 17, 18, 19, 20],
+        [21, 22, 23, 24, 25],
     ]
 
     risk_labels = {1: "Grün", 2: "Gelb", 3: "Rot"}

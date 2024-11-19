@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulation Risikomatrix-Klassifikation</title>
+    <link rel="stylesheet" href="../static/index.css">
 </head>
 <body>
 
@@ -31,15 +32,21 @@
         <input type="submit" value="Submit">
     </form>
     
-
     <br>
 
     <h2>Plots</h2>
-
-    <div id="plot">{{ plot|safe }}</div>
-    <div id="plot">{{ plot2|safe }}</div>
-    <div id="plot">{{ plot3|safe }}</div>
-
+        <div class="plot-comparison">
+        <div class="col">
+            <div class="plot">{{ scatter1|safe }}</div>
+            <div class="plot">{{ bar1|safe }}</div>
+            <div class="plot">{{ heat1|safe }}</div>
+        </div>
+        <div class="col">
+            <div class="plot">{{ scatter2|safe }}</div>
+            <div class="plot">{{ bar2|safe }}</div>
+            <div class="plot">{{ heat2|safe }}</div>
+        </div>
+    </div>
 
 </body>
 </html>

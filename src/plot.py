@@ -30,17 +30,14 @@ def plotPriorityDistribution(priorities, matrix):
       for i, count in enumerate(priorityCounts.values):
             ax.text(i, count + 0.5, f'{int(count)}', ha='center', va='bottom', fontweight='bold')
 
-
       ax.set_title("Verteilung der Risikoprioritäten in der Simulation")
       ax.set_xlabel("Priorität")
       ax.set_ylabel("Häufigkeit")
-
 
       img = io.StringIO()
       fig.savefig(img, format='svg')
       img.seek(0)
 
-      # Extract only the <svg> part of the image
       svg_img = '<svg' + img.getvalue().split('<svg')[1]
       
       return svg_img
@@ -67,12 +64,10 @@ def plotHeatmap(matrixFelder, matrix):
       ax.set_xlabel("Schwere")
       ax.set_ylabel("Häufigkeit")
 
-      # Save the plot to a StringIO buffer in SVG format
       img = io.StringIO()
       fig.savefig(img, format='svg')
       img.seek(0)
 
-      # Extract only the <svg> part of the image
       svg_img = '<svg' + img.getvalue().split('<svg')[1]
       
       return svg_img
@@ -92,14 +87,13 @@ def plotScatter(sev_mean, freq_mean, priorities, severities, frequencies, matrix
       ax.pcolormesh(X, Y, matrix.representation[::-1], cmap=chartColors, edgecolors='k', shading='auto', alpha=0.5)
 
       unique_classes = np.unique(matrix.representation)
-      boundaries = np.arange(min(unique_classes), max(unique_classes) + 2)  # Grenzen für die Klassen
+      boundaries = np.arange(min(unique_classes), max(unique_classes) + 2)
       norm = BoundaryNorm(boundaries, chartColors.N)
       scatter = ax.scatter(severities, frequencies, c=priorities, cmap=chartColors, norm=norm, alpha=0.6, edgecolor='black')
 
 
       ax.scatter([sev_mean], [freq_mean], color='lightgrey', s=200, label='Erwartungswert', edgecolor='black')
 
-      # Set plot title, labels, limits, and legend
       ax.set_title('Scatterplot der simulierten Häufigkeit und Schwere')
       ax.set_xlabel('Normierte Schwere (0-1)')
       ax.set_ylabel('Normierte Häufigkeit (0-1)')
@@ -108,12 +102,10 @@ def plotScatter(sev_mean, freq_mean, priorities, severities, frequencies, matrix
       ax.legend()
       ax.grid(False)
 
-      # Save the plot to a StringIO buffer in SVG format
       img = io.StringIO()
       fig.savefig(img, format='svg')
       img.seek(0)
 
-      # Extract only the <svg> part of the image
       svg_img = '<svg' + img.getvalue().split('<svg')[1]
       
       return svg_img

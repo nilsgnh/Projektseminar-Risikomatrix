@@ -14,7 +14,6 @@ def generatePoints(nSimulations, frequencyMean, frequencyVariance, severityMean,
     
 
 def simulateRiskMatrix(frequencies, severities, matrix):
-    
     priorities = []
     fieldNum = []
     
@@ -39,6 +38,7 @@ def conv_perc_std(certainly, percent):
     # Standardabweichung berechnen
     sigma = (percent / 100) / z
     return sigma
+
 
 def conv_perc_var(certainly, percent):
     # z-Quantil für die gegebene Sicherheit berechnen
