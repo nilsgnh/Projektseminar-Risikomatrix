@@ -30,6 +30,8 @@ form {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    /*falls Breite zu gering, sollen alle Garafiken untereinander angezeigt werden*/
+    flex-wrap: wrap;
 }
   
 .col {
