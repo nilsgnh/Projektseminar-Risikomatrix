@@ -11,3 +11,10 @@
 * ideale 5x5-Matrix aus Literatur entnommen und in Prototypen zum Vergleich als weiteres Fenster eingebaut
 * Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist
 * Konzept für Benchmark entworfen
+
+## Mitschrift
+### ToDos für die nächsten 2 Wochen:
+* Maß für Ordnung -> Vektor von quantitativen Rsiken (zuordnen der Punkte) und zuordnung zu RIsikovektor qualitativ als Farbvektor -> Ordnungsmaß auf Farbvektor, sodass am besten grün, grün, grün, gelb, gelb, rot
+** siehe Benchmark-Konzept.pdf im Unterpunkt 1.2.3 -> Ordnungsmaß
+* Berechnungspipeline für Benchmarkbewertung: Bewertungsmaßstäbe implementieren
+* schicken von Dokument und Handrechnung -> *done*
