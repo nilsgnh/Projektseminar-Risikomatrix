@@ -37,10 +37,10 @@
 
 ### To-Dos
 * GUI für Prototypen erstellen (interaktiv, sodass mehrere Parameter verändert werden können) -> *done*
-* ideale 5x5-Matrix aus Literatur entnehmen und in Prototypen zum Vergleich als weiteres Fenster einbauen -> *in process*
+* ideale 5x5-Matrix aus Literatur entnehmen und in Prototypen zum Vergleich als weiteres Fenster einbauen -> *done*
 * Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist -> *done*
 ** Angabe von %, wie stark von Erwartungswert abgewichen werden darf -> Umrechnung in Standardabweichung zur besseren Verständlichkeit und dann erst in Varianz
-* Konzept für Benchmark entwerfen/darüber nachdenken -> *in process*
+* Konzept für Benchmark entwerfen/darüber nachdenken -> *done*
 ** d.h. Bewertungsmaßstab für Risikomatrizen
 ** z.B. Produkte von quantitativen Risiken müssen mit qualitativer Kategorisierung ähnlich sein (in einer Kategorie keine großen quantiativen Produkt-Risikounterschiede)
 *** d.h. aus allen n generierten Punkten den Risiko-Wert quantitativ errechnen, diese ordnen und dann auch in Kategorien einteilen -> dann mit den Kategorien der qualitativen Risikomatrix vergleichen

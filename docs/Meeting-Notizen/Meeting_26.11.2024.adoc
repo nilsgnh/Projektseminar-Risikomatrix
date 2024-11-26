@@ -5,3 +5,9 @@
 ### Fragen
 * Wie sollen wir unsere Arbeit dokumentieren bzw. was soll dokumentiert sein?
 ** Vorschlag: Dokumentation des Programms (Funktionsweise, Struktur, etc.), der erreichten Ergebnisse/Erkenntnisse (Ergebnisse der Untersuchungen, etc.) und von Theorie (z.B. eigens erstelltes Benchmark-Konzept, analog herausgefundene Schwächen der Risikomatrix-Norm anhand von Literatur, etc.)
+
+### Arbeit der letzten 3 Wochen
+* GUI für Prototypen erstellt (interaktiv, sodass mehrere Parameter verändert werden können)
+* ideale 5x5-Matrix aus Literatur entnommen und in Prototypen zum Vergleich als weiteres Fenster eingebaut
+* Angabe der Abweichung nicht als Varianz, sondern als Form, die für den Laien verständlich ist
+* Konzept für Benchmark entworfen
