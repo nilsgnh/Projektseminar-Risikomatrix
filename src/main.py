@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request
 from simulation import *
 from matrix import *
 from plot import *
+import numpy as np
 
 main_bp = Blueprint('main', __name__)
 
@@ -71,14 +72,11 @@ def dinMatrix():
         [1, 1, 1, 1],    # Unvorstellbar
     ])
 
-    field_nums = [
-        [1, 2, 3, 4],  # Häufig 
-        [5, 6, 7, 8],  # Wahrscheinlich
-        [9, 10, 11, 12],  #  Gelegentlich
-        [13, 14, 15, 16],  # Selten
-        [17, 18, 19, 20],  #  Unwahrscheinlich
-        [21, 22, 23, 24],   # Unvorstellbar
-    ]
+    field_nums = np.zeros((len(matrix_rep), len(matrix_rep[0])), dtype=int)
+
+    for i in range (len(matrix_rep)):
+        for j in range (len(matrix_rep[0])):
+            field_nums[i][j] = i+j+1
 
     risk_labels = {1: "Vernachlässigbar", 2: "Tolerabel", 3: "Unerwünscht", 4: "Intolerabel"}
 
@@ -103,13 +101,11 @@ def optimalMatrix():
         [1, 1, 1, 1, 1], 
     ])
 
-    field_nums = [
-        [1, 2, 3, 4, 5],
-        [6, 7, 8, 9,10],  
-        [11, 12, 13, 14, 15],
-        [16, 17, 18, 19, 20],
-        [21, 22, 23, 24, 25],
-    ]
+    field_nums = np.zeros((len(matrix_rep), len(matrix_rep[0])), dtype=int)
+
+    for i in range (len(matrix_rep)):
+        for j in range (len(matrix_rep[0])):
+            field_nums[i][j] = i+j+1
 
     risk_labels = {1: "Grün", 2: "Gelb", 3: "Rot"}
 
