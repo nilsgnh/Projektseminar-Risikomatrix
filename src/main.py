@@ -11,6 +11,25 @@ main_bp = Blueprint('main', __name__)
 def main():
     return render_template("index.html")
 
+@main_bp.route('/custom', methods=['GET'])
+def custom():
+    return render_template("customMatrix.html")
+
+@main_bp.route('/custom/submit', methods=["POST"])
+def process_table():
+    # Retrieve JSON data from the request
+    data = request.get_json()
+    
+    table_data = data.get('table', [])
+    colors = data.get('colors', [])
+    names = data.get('names', [])
+    
+    print("Table Data:", table_data)
+    print("Colors:", colors)
+    print("Names:", names)
+    
+    return '', 204  # Respond with No Content
+
 
 @main_bp.route('/submit', methods=['GET', 'POST'])
 def set_parameters():

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Input</title>
+    <script src="../static/customTableLogic.js"></script>
+</head>
+<body>
+    <div>
+        <label for="rows">Rows (max 10):</label>
+        <input type="number" id="rows" max="10" min="1" value="3">
+        <label for="cols">Columns (max 10):</label>
+        <input type="number" id="cols" max="10" min="1" value="3">
+    </div>
+
+    <table id="colorNameTable">
+        <thead>
+            <tr>
+                <th>Risk Number</th>
+                <th>Risk Color</th>
+                <th>Risk Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><input type="color" /></td>
+                <td><input type="text" placeholder="Enter name" /></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <button onclick="addRow()">Add Row</button>
+    <button onclick="removeRow()">Remove Row</button>
+    
+    <h3>Generate</h3>
+    <button onclick="generateTable()">Generate Table</button>
+
+    <table id="numberInputTable"></table>
+
+    <h3>Submit</h3>
+    <button onclick="sendTableData()">Submit Table Data</button>
+
+
+
+</body>
+</html>
