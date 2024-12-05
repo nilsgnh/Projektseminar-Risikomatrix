@@ -126,6 +126,11 @@ def ordnung_risk_matrix(matrix, nSimulations=100):
     unique, counts = np.unique(qualitative_risks, return_counts=True)
     risk_distribution = dict(zip(unique, counts))
 
+    # Score
+    if(rank_correlation/ideal_case_corr>=0):
+        score=rank_correlation/ideal_case_corr
+    else:
+        score = 0
     # Zusammenfassung der Ergebnisse
     results = {
         "rank_correlation": rank_correlation,
@@ -133,7 +138,7 @@ def ordnung_risk_matrix(matrix, nSimulations=100):
         "worst_case_correlation": worst_case_corr,
         "risk_distribution": risk_distribution,
         "risk_points": risk_points,
-        "benchmark_score": rank_correlation/ideal_case_corr # Score für die Bewertung der Risikomatrix (0-1)
+        "benchmark_score": score
     }
     return results
 
