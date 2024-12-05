@@ -14,7 +14,13 @@
 
 ## Mitschrift
 ### ToDos für die nächsten 2 Wochen:
-* Maß für Ordnung -> Vektor von quantitativen Rsiken (zuordnen der Punkte) und zuordnung zu RIsikovektor qualitativ als Farbvektor -> Ordnungsmaß auf Farbvektor, sodass am besten grün, grün, grün, gelb, gelb, rot
+* Maß für Ordnung -> Vektor von quantitativen Rsiken (zuordnen der Punkte) und zuordnung zu Risikovektor qualitativ als Farbvektor -> Ordnungsmaß auf Farbvektor, sodass am besten grün, grün, grün, gelb, gelb, rot
 ** siehe Benchmark-Konzept.pdf im Unterpunkt 1.2.3 -> Ordnungsmaß
 * Berechnungspipeline für Benchmarkbewertung: Bewertungsmaßstäbe implementieren
 * schicken von Dokument und Handrechnung -> *done*
+
+### ToDos bis 10.12.2024:
+* Ordnungsmaß implementieren
+* die 3 Benchmarkscores implementieren
+* customTable implementieren
+* fine- tuning Benchmark (meine Kommentare einarbeiten)
