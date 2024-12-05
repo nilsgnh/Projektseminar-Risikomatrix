@@ -15,51 +15,73 @@ def calculate_range_compression(matrix):
     Returns:
     - ScoreRange: Der berechnete Score für die Range Compression.
     """
-    risk_classes = matrix.representation.flatten()  # Alle qualitativen Risiko-Klassen
-    k = len(matrix.riskLabels)  # Anzahl qualitativer Risikostufen
-    ranges = []  # Liste für die Range jeder Klasse
-    
-    for j in range(1, k + 1):  # Iteriere über jede qualitative Klasse
-        # Indizes aller Felder, die zu dieser Klasse gehören
-        indices = np.argwhere(matrix.representation == j)
-        
-        if len(indices) == 0:  # Überspringe Klassen, die nicht verwendet werden
-            continue
-        
-        # Berechne minimale und maximale quantitative Werte für alle Felder dieser Klasse
-        quantitative_min_values = []
-        quantitative_max_values = []
-        for idx in indices:
-            freq_idx, sev_idx = idx  # Index für Häufigkeit und Schwere
-            
-            # Grenzen der Häufigkeitsklasse (vertikale Achse)
-            freq_lower = freq_idx / matrix.rows
-            freq_upper = (freq_idx + 1) / matrix.rows
-            
-            # Grenzen der Schwereklasse (horizontale Achse)
-            sev_lower = sev_idx / matrix.cols
-            sev_upper = (sev_idx + 1) / matrix.cols
-            
-            # Minimaler und maximaler quantitativer Wert
-            min_value = freq_lower * sev_lower  # niedrigste Kombination
-            max_value = freq_upper * sev_upper  # höchste Kombination
-            
-            quantitative_min_values.append(min_value)
-            quantitative_max_values.append(max_value)
-        
-        # Bestimme Range für die Klasse
-        range_j = max(quantitative_max_values) - min(quantitative_min_values)
-        ranges.append(range_j)
+    # für jedes Feld in der Matrix wird kleinster und größter Wert berechnet und mitsamt der Klasse in ein Array gespeichert
+    min_max_values = []
+    anzx = matrix.cols
+    anzy = matrix.rows       
+    x_step=1/anzx
+    y_step=1/anzy
 
-    print(ranges)
+    for i in range(anzy):
+        for j in range(anzx):
+            risk_class = matrix.representation[i][j]
+
+            '''
+            Berechnung, sodass: 1   [] [] [] []
+                                0.75[] [] [] []
+                                0.5 [] [] [] []
+                                0.25[] [] [] []
+                                    0.25 0.5 0.75 1
+            '''
+
+            minval=(j*x_step) *(1-(i+1)*y_step)
+            maxval=(j+1)*x_step*(1-i*y_step)
+
+            min_max_values.append((risk_class, minval, maxval))
+
+    # Sortierung der Werte nach Risikoklasse
+    min_max_values.sort(key=lambda x: x[0])
+    print(min_max_values)
+
+    # Anzahl risk classes in der Matrix:
+    n_classes = len(matrix.riskLabels)
+
+    # je Klasse ein Array, in dem die Werte der Klasse gespeichert werden
+    class_values = [[] for _ in range(n_classes)] # erste Dimension: Klasse, zweite Dimension: Werte
+
+    # in min_max_values gespeicherte Werte werden in die entsprechenden Klassen-Arrays eingefügt
+    for risk_class, minval, maxval in min_max_values:
+        class_values[risk_class-1].append(minval)
+        class_values[risk_class-1].append(maxval)
+
+    # je Klasse wird der kleinste und größte Wert berechnet
+    class_range = []
+    global_min = 1
+    global_max = 0
+    for i in range(n_classes):
+        print("Klasse: ", i+1)
+        print(class_values[i])
+        print(min(class_values[i]))
+        print(max(class_values[i]))
+        range_i = abs(max(class_values[i])-min(class_values[i]))
+        class_range.append(range_i)
+        if(min(class_values[i])<global_min):
+            global_min=min(class_values[i])
+        if(max(class_values[i])>global_max):
+            global_max=max(class_values[i])
+
+    print("Class Range:")
+    print(class_range)
+    # Berechnung des Range Compression Scores
+    ScoreRange = 0
+    for i in range(n_classes):
+        ScoreRange += class_range[i]
     
-    # Durchschnittliche Range
-    avg_range = sum(ranges) / len(ranges)
-    
-    # Score berechnen: max(Rquant) - min(Rquant) ist normiert auf [0, 1], daher 1 - avg_range
-    score_range = 1 - avg_range
-    
-    return score_range
+    AverageRange = ScoreRange/n_classes
+
+    ScoreRange = 1- AverageRange/(global_max-global_min)
+
+    return ScoreRange
 
 class RiskPoint:
     """
@@ -147,7 +169,7 @@ if __name__ == "__main__":
     matrix = dinMatrix()
     matrixopt = optimalMatrix()
 
-    # Benchmark durchführen
+    # Ordnungs-Score durchführen
     benchmark_results = ordnung_risk_matrix(matrix)
     benchmark_results_opt = ordnung_risk_matrix(matrixopt)
 
@@ -167,8 +189,12 @@ if __name__ == "__main__":
     print(f"Risikoverteilung: {benchmark_results_opt['risk_distribution']}")
     print(f"Benchmark Score: {benchmark_results_opt['benchmark_score']}")
 
+    # Range Compression Score berechnen
+    range_compression_score = calculate_range_compression(matrix)
+    range_compression_score_opt = calculate_range_compression(matrixopt)
 
-    '''# Beispiele der simulierten Punkte anzeigen
-    print("\nBeispiele der simulierten Punkte:")
-    for point in benchmark_results["risk_points"][:10]:  # Zeige die ersten 10 Punkte
-        print(point)'''
+    print("\nRange Compression Score für din-Matrix:")
+    print(f"Range Compression Score: {range_compression_score}")
+
+    print("\nRange Compression Score für optimal-Matrix:")
+    print(f"Range Compression Score: {range_compression_score_opt}")
