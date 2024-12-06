@@ -5,6 +5,8 @@ from matrix import *
 from plot import *
 import numpy as np
 
+customMatr = None
+
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/', methods=['GET'])
@@ -15,20 +17,73 @@ def main():
 def custom():
     return render_template("customMatrix.html")
 
+
+@main_bp.route('/custom/plot', methods=["GET"])
+def plotCustomMatrix():
+    points = generatePoints(1000, 0.4, 0.4, 0.4, 0.4)
+    frequencies = points[0]
+    severities = points[1]
+
+    pointsInMatrix1 = simulateRiskMatrix(frequencies, severities, customMatr)
+    priorities1 = pointsInMatrix1[0]
+
+    bar_plot = plotPriorityDistribution(priorities1, customMatr)
+
+
+
+    #render images back to index page
+    render_template("customMatrix.html", bar3=bar_plot)
+
+    return render_template("customMatrix.html", bar3=bar_plot)
+
+
+
 @main_bp.route('/custom/submit', methods=["POST"])
 def process_table():
     # Retrieve JSON data from the request
     data = request.get_json()
     
-    table_data = data.get('table', [])
+    table_data = np.array(data.get('table', []))
     colors = data.get('colors', [])
     names = data.get('names', [])
     
-    print("Table Data:", table_data)
-    print("Colors:", colors)
-    print("Names:", names)
+    y_beschriftungen = []
+    x_beschriftungen = []
+
+
+    risk_labels = {}
+    for i, field in enumerate(names):
+        risk_labels[i+1] = field
+
+
+    field_nums = np.zeros((len(table_data), len(table_data[0])), dtype=int)
+
+    counter = 1
+    for i in range (len(table_data)):
+        for j in range (len(table_data[0])):
+            field_nums[i][j] = counter
+            counter += 1
+        
+    for i in range(len(table_data)):
+        y_beschriftungen.append("Y")
     
+    for i in range(len(table_data[0])):
+        x_beschriftungen.append("X")
+
+
+    print("Matrix: ", table_data)
+    print("Farben: ", colors)
+    print("X-Beschriftungen:", x_beschriftungen)
+    print("Y-Beschriftungen:", y_beschriftungen)
+    print("FelderNummerierung:", field_nums)
+    print("Risiko Labels: ", risk_labels)
+
+    matrix = Matrix(table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
+    customMatr = matrix
+
     return '', 204  # Respond with No Content
+
+
 
 
 @main_bp.route('/submit', methods=['GET', 'POST'])
@@ -122,9 +177,11 @@ def optimalMatrix():
 
     field_nums = np.zeros((len(matrix_rep), len(matrix_rep[0])), dtype=int)
 
+    counter = 1
     for i in range (len(matrix_rep)):
         for j in range (len(matrix_rep[0])):
-            field_nums[i][j] = i+j+1
+            field_nums[i][j] = counter
+            counter += 1
 
     risk_labels = {1: "Grün", 2: "Gelb", 3: "Rot"}
 
