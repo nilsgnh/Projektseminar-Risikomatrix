@@ -25,15 +25,6 @@ def calculate_range_compression(matrix):
     for i in range(anzy):
         for j in range(anzx):
             risk_class = matrix.representation[i][j]
-
-            '''
-            Berechnung, sodass: 1   [] [] [] []
-                                0.75[] [] [] []
-                                0.5 [] [] [] []
-                                0.25[] [] [] []
-                                    0.25 0.5 0.75 1
-            '''
-
             minval=(j*x_step) *(1-(i+1)*y_step)
             maxval=(j+1)*x_step*(1-i*y_step)
 
@@ -41,7 +32,7 @@ def calculate_range_compression(matrix):
 
     # Sortierung der Werte nach Risikoklasse
     min_max_values.sort(key=lambda x: x[0])
-    print(min_max_values)
+    #print(min_max_values)
 
     # Anzahl risk classes in der Matrix:
     n_classes = len(matrix.riskLabels)
@@ -59,10 +50,10 @@ def calculate_range_compression(matrix):
     global_min = 1
     global_max = 0
     for i in range(n_classes):
-        print("Klasse: ", i+1)
-        print(class_values[i])
-        print(min(class_values[i]))
-        print(max(class_values[i]))
+        #print("Klasse: ", i+1)
+        #print(class_values[i])
+        #print(min(class_values[i]))
+        #print(max(class_values[i]))
         range_i = abs(max(class_values[i])-min(class_values[i]))
         class_range.append(range_i)
         if(min(class_values[i])<global_min):
@@ -70,16 +61,26 @@ def calculate_range_compression(matrix):
         if(max(class_values[i])>global_max):
             global_max=max(class_values[i])
 
-    print("Class Range:")
-    print(class_range)
+    #print("Class Range:")
+    #print(class_range)
     # Berechnung des Range Compression Scores
     ScoreRange = 0
     for i in range(n_classes):
         ScoreRange += class_range[i]
+
+    # Berechnen von Summe an Unterscheidungen zwischen den Klassen (der Ranges)
+    sumdiff = 0
+    for i in range(n_classes-1):
+        for j in range(i+1,n_classes):
+            sumdiff += abs(class_range[i]-class_range[j])
+
+    # Durchschnittlicher Unterschied zwischen den Klassen
+    AverageSumDiff = sumdiff/(n_classes*(n_classes-1)/2) # durch n(n-1)/2 geteilt, da es n(n-1)/2 Unterscheidungen gibt
+    #print("AverageSumDiff: ", AverageSumDiff)
     
     AverageRange = ScoreRange/n_classes
 
-    ScoreRange = 1- AverageRange/(global_max-global_min)
+    ScoreRange = 1- (AverageRange/(global_max-global_min)+AverageSumDiff)
 
     return ScoreRange
 
@@ -97,7 +98,7 @@ class RiskPoint:
         return (f"RiskPoint(freq={self.frequency:.2f}, sev={self.severity:.2f}, "
                 f"quant_risk={self.quantitative_risk:.5f}, qual_risk={self.qualitative_risk})")
 
-def ordnung_risk_matrix(matrix, nSimulations=100):
+def ordnung_risk_matrix(matrix, nSimulations=10000):
     """
     Führt eine simulationsgestützte Benchmark der Risikomatrix durch.
 
@@ -124,14 +125,6 @@ def ordnung_risk_matrix(matrix, nSimulations=100):
 
     # Sortierung der Punkte nach quantitativem Risiko
     risk_points.sort(key=lambda point: point.quantitative_risk)
-
-    '''#Ausgabe von sortierten Punkten (einmal nur die quantitativen Risiken und einmal die qualitativen Risiken)
-    print("Quantitative Risiken:")
-    for point in risk_points:
-        print(point.quantitative_risk)
-    print("\nQualitative Risiken:")
-    for point in risk_points:
-        print(point.qualitative_risk)'''
 
     # Ordnungsmaß: Spearman's Rank Correlation zwischen quantitativen und qualitativen Risiken
     quantitative_risks = [point.quantitative_risk for point in risk_points]
@@ -180,7 +173,6 @@ if __name__ == "__main__":
     print(f"Worst-Case (Korrelation): {benchmark_results['worst_case_correlation']}")
     print(f"Risikoverteilung: {benchmark_results['risk_distribution']}")
     print(f"Benchmark Score: {benchmark_results['benchmark_score']}")
-
 
     print("\nBenchmark Ergebnisse für optimal-Matrix:")
     print(f"Ordnungsmaß (Spearman Rank Correlation): {benchmark_results_opt['rank_correlation']}")
