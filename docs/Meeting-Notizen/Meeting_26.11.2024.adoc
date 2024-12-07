@@ -21,10 +21,10 @@
 
 ### ToDos bis 10.12.2024:
 * Ordnungsmaß implementieren *done*
-** Spearman-Korrelation ansehen zum vorstellen  *TODO*
-** ist es okay, wenn man normiert? (da es nie 1 werden kann, da nur 3-4 Risikoklassen)
-* die 3 Benchmarkscores implementieren *in progress*
-** fine-tuning beachten und umsetzen
+** Spearman-Korrelation ansehen zum vorstellen  *done*
+** *ist es okay, wenn man normiert? (da es nie 1 werden kann, da nur 3-4 Risikoklassen)*
+* die 3 Benchmarkscores implementieren *done*
+** fine-tuning beachten und umsetzen *done*
 * customTable implementieren *in progress, Teil done*
 * fine- tuning Benchmark (meine Kommentare einarbeiten)
-** Fine-Tuning in Benchmark-Konzept einfügen *TODO*
+** Fine-Tuning in Benchmark-Konzept einfügen *done*
