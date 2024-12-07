@@ -113,7 +113,7 @@ function sendTableData() {
   }
 
   // Send all data to the backend
-  fetch("/custom/submit", {
+  fetch("/custom/enterTable", {
       method: "POST",
       headers: {
           "Content-Type": "application/json",

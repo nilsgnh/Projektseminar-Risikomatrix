@@ -18,32 +18,11 @@ def custom():
     return render_template("customMatrix.html")
 
 
-@main_bp.route('/custom/plot', methods=["GET"])
-def plotCustomMatrix():
-    points = generatePoints(1000, 0.4, 0.4, 0.4, 0.4)
-    frequencies = points[0]
-    severities = points[1]
-
-    pointsInMatrix1 = simulateRiskMatrix(frequencies, severities, customMatr)
-    priorities1 = pointsInMatrix1[0]
-
-    bar_plot = plotPriorityDistribution(priorities1, customMatr)
-
-
-
-    #render images back to index page
-    render_template("customMatrix.html", bar3=bar_plot)
-
-    return render_template("customMatrix.html", bar3=bar_plot)
-
-
-
-@main_bp.route('/custom/submit', methods=["POST"])
+@main_bp.route('/custom/enterTable', methods=["POST"])
 def process_table():
     # Retrieve JSON data from the request
     data = request.get_json()
-    
-    table_data = np.array(data.get('table', []))
+    table_data = np.array(data.get('table', []), dtype=float)
     colors = data.get('colors', [])
     names = data.get('names', [])
     
@@ -71,7 +50,7 @@ def process_table():
         x_beschriftungen.append("X")
 
 
-    print("Matrix: ", table_data)
+    print("Matrix: ", type(table_data))
     print("Farben: ", colors)
     print("X-Beschriftungen:", x_beschriftungen)
     print("Y-Beschriftungen:", y_beschriftungen)
@@ -79,9 +58,48 @@ def process_table():
     print("Risiko Labels: ", risk_labels)
 
     matrix = Matrix(table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
+    global customMatr
     customMatr = matrix
 
     return '', 204  # Respond with No Content
+
+
+
+
+@main_bp.route('/custom/submit', methods=['GET', 'POST'])
+def plotCustom():
+    # taking User Input
+    if request.method == 'POST':
+        n_simulations = int(request.form['n_simulations'])
+        frequency_mean = float(request.form['frequency_mean'])
+        frequency_perc = float(request.form['frequency_perc'])
+        severity_mean = float(request.form['severity_mean'])
+        severity_perc = float(request.form['severity_perc'])
+
+
+    # converting & to Variance
+    frequency_var = conv_perc_var(95, frequency_perc)
+    severity_var = conv_perc_var(95, severity_perc)
+
+
+    #generating Points
+    points = generatePoints(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
+    frequencies = points[0]
+    severities = points[1]
+
+
+    #Simulation of first Matrix
+    pointsInMatrix = simulateRiskMatrix(frequencies, severities, customMatr)
+    priorities = pointsInMatrix[0]
+    matrix_felder = pointsInMatrix[1]
+
+    bar_plot = plotPriorityDistribution(priorities, customMatr)
+    heat_plot = plotHeatmap(matrix_felder, customMatr)
+    scatter_plot = plotScatter(severity_mean, frequency_mean, priorities, severities, frequencies, customMatr)
+
+
+    #render images back to index page
+    return render_template("customMatrix.html", bar=bar_plot, heat=heat_plot, scatter=scatter_plot)
 
 
 
