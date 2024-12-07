@@ -16,7 +16,7 @@ class Matrix:
         self.xLabels = xLabels      
         self.yLabels = yLabels
 
-        print(self.rows, self.cols)
+        #print(self.rows, self.cols)
 
     def computeDataPoint(self, pointFrequency, pointSeverity):
       # Berechnung der Häufigkeitsklasse
