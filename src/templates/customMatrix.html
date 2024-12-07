@@ -5,13 +5,15 @@
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1.0" />
-		<title>Table Input</title>
+		<title>Simulation Risikomatrix-Klassifikation</title>
 		<script src="../static/customTableLogic.js"></script>
 		<link
 			rel="stylesheet"
 			href="../static/index.css" />
 	</head>
 	<body>
+
+		<h3>Generate Matrix</h3>
 		<div>
 			<label for="rows">Rows (max 10):</label>
 			<input
@@ -28,8 +30,10 @@
 				min="1"
 				value="3" />
 		</div>
+		<button onclick="generateTable()">Generate Table</button>
 
-		<table id="colorNameTable">
+		<h3>Risk Settings</h3>
+		<table id="riskLevels">
 			<thead>
 				<tr>
 					<th>Risk Number</th>
@@ -53,13 +57,10 @@
 		<button onclick="addRow()">Add Row</button>
 		<button onclick="removeRow()">Remove Row</button>
 
-		<h3>Generate</h3>
-		<button onclick="generateTable()">Generate Table</button>
-
-		<table id="numberInputTable"></table>
+		<table id="matrixTable"></table>
 
 		<h3>Submit</h3>
-		<button onclick="sendTableData()">Submit Table Data</button>
+		<button id="submitButton" onclick="sendTableData()" style="display: none;">Submit Table Data</button>
 
 		<h2 id="h2setsim">Set Simulation Parameters</h2>
 		<section class="form-section">
@@ -133,9 +134,9 @@
 
 		<h2 id="h2plots">Plots</h2>
 		<div class="plot-comparison">
-			<div class="plot">{{ scatter|safe }}</div>
-			<div class="plot">{{ bar|safe }}</div>
-			<div class="plot">{{ heat|safe }}</div>
+			<div class="plot">{{ customScatter|safe }}</div>
+			<div class="plot">{{ customBar|safe }}</div>
+			<div class="plot">{{ customHeat|safe }}</div>
 		</div>
 	</body>
 </html>
