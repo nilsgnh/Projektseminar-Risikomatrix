@@ -84,6 +84,106 @@ def calculate_range_compression(matrix):
 
     return ScoreRange
 
+def calculate_overlap(matrix):
+    """
+    Berechnet den Overlap Score einer gegebenen Risikomatrix.
+    
+    Args:
+    - matrix: Instanz der Klasse Matrix
+    
+    Returns:
+    - ScoreOverlap: Der berechnete Score für den Overlap.
+    """
+    # Anzahl risk classes in der Matrix:
+    n_classes = len(matrix.riskLabels)
+
+    # für jede Klasse Intervall I_j = [min(quantiative_risk_j), max(quantiative_risk_j)] berechnen und speichern
+    min_max_values = []
+    anzx = matrix.cols
+    anzy = matrix.rows       
+    x_step=1/anzx
+    y_step=1/anzy
+
+    for i in range(anzy):
+        for j in range(anzx):
+            risk_class = matrix.representation[i][j]
+            minval=(j*x_step) *(1-(i+1)*y_step)
+            maxval=(j+1)*x_step*(1-i*y_step)
+
+            min_max_values.append((risk_class, minval, maxval))
+
+    min_max_values.sort(key=lambda x: x[0])
+
+    n_classes = len(matrix.riskLabels)
+
+    class_values = [[] for _ in range(n_classes)]
+
+    for risk_class, minval, maxval in min_max_values:
+        class_values[risk_class-1].append(minval)
+        class_values[risk_class-1].append(maxval)
+
+    class_range = []
+    for i in range(n_classes):
+        class_range.append((min(class_values[i]), max(class_values[i])))
+
+    #print(class_range)
+
+    # Berechnung der einzelnen Overlaps
+    k=n_classes
+    totaloverlap=0
+
+    for j in range(1, k):
+        for x in range(1, k-j+1):
+            overlap=max(0, class_range[j-1][1]-(class_range[j+x-1][0]))
+            totaloverlap+=overlap
+            #print("Overlap: ", overlap)
+    maxoverlap = 0
+    for x in range (1, k):
+        maxoverlap+=(k-x)*x
+
+    scoreoverlap = 1- totaloverlap/maxoverlap
+
+    #print("Total Overlap: ", totaloverlap)
+    #print("Max Overlap: ", maxoverlap)
+
+    return scoreoverlap
+
+def calc_quantifying_errors(matrix):
+    # Speichern der Risikoklassen der 4 umliegenden Felder für jedes Kreuz der Matrix
+    # (nur für die Felder, die nicht am Rand liegen)
+
+    # Anzahl Kreuze
+    n_crosses = (matrix.rows-1)*(matrix.cols-1)
+
+    # Speichern der Risikoklassen der 4 umliegenden Felder für jedes Kreuz
+    cross_classes = np.zeros((n_crosses, 4)) # 2D-Array: Zeilen: Kreuze, Spalten: Risikoklassen
+    
+    for i in range(matrix.rows-1):
+        for j in range(matrix.cols-1):
+            # Kreuznummer
+            cross_num = i*(matrix.cols-1)+j
+
+            # Risikoklassen der 4 umliegenden Felder
+            cross_classes[cross_num, 0] = matrix.representation[i][j] # oben links
+            cross_classes[cross_num, 1] = matrix.representation[i][j+1] # oben rechts
+            cross_classes[cross_num, 2] = matrix.representation[i+1][j] # unten links
+            cross_classes[cross_num, 3] = matrix.representation[i+1][j+1] # unten rechts
+
+    #print(cross_classes)
+
+    # Berechnung der Quantifying Errors
+    quantifying_errors = 0
+    for i in range(n_crosses):
+        # Anzahl der unterschiedlichen Risikoklassen in einem Kreuz berechnen
+        unique_classes = np.unique(cross_classes[i])
+        n_unique_classes = len(unique_classes)
+        quantifying_errors += n_unique_classes
+
+    # Score berechnen
+    quantifying_errors_score = 1 - quantifying_errors/(n_crosses*4)
+    return quantifying_errors_score
+
+
 class RiskPoint:
     """
     Klasse für die Repräsentation eines simulierten Punkts in der Risikomatrix.
@@ -157,6 +257,26 @@ def ordnung_risk_matrix(matrix, nSimulations=10000):
     }
     return results
 
+def calc_benchmark(matrix):
+    """
+    Berechnet den Benchmark Score einer gegebenen Risikomatrix.
+    
+    Args:
+    - matrix: Instanz der Klasse Matrix
+    
+    Returns:
+    - ScoreBenchmark: Der berechnete Benchmark Score.
+    """
+    res = ordnung_risk_matrix(matrixopt)
+    w = res['benchmark_score']
+    x = calculate_range_compression(matrix)
+    y = calculate_overlap(matrix)
+    z = calc_quantifying_errors(matrix)
+
+    ScoreBenchmark = 0.1762 * w + 0.3598 * x + 0.1877 * y + 0.2763 * z
+
+    return ScoreBenchmark
+
 # Beispiel für die Nutzung
 if __name__ == "__main__":
     matrix = dinMatrix()
@@ -190,3 +310,33 @@ if __name__ == "__main__":
 
     print("\nRange Compression Score für optimal-Matrix:")
     print(f"Range Compression Score: {range_compression_score_opt}")
+
+    # Overlap Score berechnen
+    overlap_score = calculate_overlap(matrix)
+    overlap_score_opt = calculate_overlap(matrixopt)
+
+    print("\nOverlap Score für din-Matrix:")
+    print(f"Overlap Score: {overlap_score}")
+
+    print("\nOverlap Score für optimal-Matrix:")
+    print(f"Overlap Score: {overlap_score_opt}")
+
+    # Quantifying Errors berechnen
+    quanterr_score=calc_quantifying_errors(matrix)
+    quanterr_score_opt=calc_quantifying_errors(matrixopt)
+
+    print("\nQuantifying Errors Score für din-Matrix:")
+    print(f"Quantifying Errors Score: {quanterr_score}")
+
+    print("\nQuantifying Errors Score für optimal-Matrix:")
+    print(f"Quantifying Errors Score: {quanterr_score_opt}")
+
+    benchmarkscore_din = calc_benchmark(matrix)
+    benchmarkscore_opt = calc_benchmark(matrixopt)
+
+    print('--------------------------------')
+    print("\nBenchmark Score für din-Matrix:")
+    print(f"Benchmark Score: {benchmarkscore_din}")
+
+    print("\nBenchmark Score für optimal-Matrix:")
+    print(f"Benchmark Score: {benchmarkscore_opt}")
