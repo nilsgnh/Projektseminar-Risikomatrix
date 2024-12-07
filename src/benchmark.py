@@ -1,8 +1,6 @@
 import numpy as np
-from matrix import Matrix
-from main import dinMatrix, optimalMatrix
+from predefinedMatrices import dinMatrix, optimalMatrix
 from scipy.stats import spearmanr
-from simulation import generatePoints
 
 
 def calculate_range_compression(matrix):
