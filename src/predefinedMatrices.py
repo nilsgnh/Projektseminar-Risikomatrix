@@ -15,9 +15,11 @@ def dinMatrix():
 
     field_nums = np.zeros((len(matrix_rep), len(matrix_rep[0])), dtype=int)
 
+    counter = 1
     for i in range (len(matrix_rep)):
         for j in range (len(matrix_rep[0])):
-            field_nums[i][j] = i+j+1
+            field_nums[i][j] = counter
+            counter += 1
 
     risk_labels = {1: "Vernachlässigbar", 2: "Tolerabel", 3: "Unerwünscht", 4: "Intolerabel"}
 

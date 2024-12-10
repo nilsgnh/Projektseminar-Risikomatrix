@@ -12,55 +12,68 @@
 			href="../static/index.css" />
 	</head>
 	<body>
-
-		<h3>Generate Matrix</h3>
-		<div>
-			<label for="rows">Rows (max 10):</label>
-			<input
-				type="number"
-				id="rows"
-				max="10"
-				min="1"
-				value="3" />
-			<label for="cols">Columns (max 10):</label>
-			<input
-				type="number"
-				id="cols"
-				max="10"
-				min="1"
-				value="3" />
-		</div>
-		<button onclick="generateTable()">Generate Table</button>
-
-		<h3>Risk Settings</h3>
-		<table id="riskLevels">
-			<thead>
-				<tr>
-					<th>Risk Number</th>
-					<th>Risk Color</th>
-					<th>Risk Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td><input type="color" /></td>
-					<td>
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Create Custom Matrix</h2>
+			<div class="flex-container">
+				<div class="col">
+					<h3>Generate Matrix</h3>
+					<div>
+						<p>define how many rows ond columns the table has and fill the generated Table according to the specified Risk Numbers</p>
+						<label for="rows">Rows (max 7):</label>
 						<input
-							type="text"
-							placeholder="Enter name" />
-					</td>
-				</tr>
-			</tbody>
-		</table>
+							type="number"
+							id="rows"
+							max="10"
+							min="1"
+							value="3" />
+						<label for="cols">Columns (max 7):</label>
+						<input
+							type="number"
+							id="cols"
+							max="10"
+							min="1"
+							value="3" />
+					</div>
+					<button onclick="generateTable()">Generate Table</button>
+					<table id="matrixTable"></table>
+				</div>
 
-		<button onclick="addRow()">Add Row</button>
-		<button onclick="removeRow()">Remove Row</button>
+				<div class="col">
+					<h3>Risk Settings</h3>
+					<p>specify a name and a color for each risk level in your matrix (lowest number=lowest risk)</p>
+					<table id="riskLevels">
+						<thead>
+							<tr>
+								<th>Risk Number</th>
+								<th>Risk Color</th>
+								<th>Risk Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td><input type="color" /></td>
+								<td>
+									<input
+										type="text"
+										placeholder="Enter name" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
-		<table id="matrixTable"></table>
-
-		<h3>Submit</h3>
-		<button id="submitButton" onclick="sendTableData()" style="display: none;">Submit Table Data</button>
+					<button onclick="addRow()">Add Row</button>
+					<button onclick="removeRow()">Remove Row</button>
+				</div>
+			</div>
+			<button
+				type="submit"
+				id="submitButton"
+				onclick="sendTableData()"
+				style="display: none">
+				Submit Table Data
+			</button>
+		</div>
 
 		<h2 id="h2setsim">Set Simulation Parameters</h2>
 		<section class="form-section">

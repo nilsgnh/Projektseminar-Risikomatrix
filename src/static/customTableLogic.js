@@ -8,7 +8,7 @@ function generateTable() {
         return null;
     }
 
-    if (isNaN(cols) || cols < 1 || cols > 10) {
+    if (isNaN(cols) || cols < 1 || cols > 7) {
         window.alert("invalid cols count");
         return null;
     }
@@ -27,7 +27,7 @@ function generateTable() {
 	}
 
     const submitButton = document.getElementById("submitButton");
-    submitButton.style.display = "block";
+    submitButton.style.display = "inline-block";
 }
 
 
@@ -116,7 +116,7 @@ function extractMatrixTable(possibleRisks) {
 
             if (input) {
                 const value = parseFloat(input.value);
-                if (isNaN(value) || value > possibleRisks) {
+                if (isNaN(value) || value > possibleRisks || value < 1) {
                     window.alert(`Invalid value in row ${i + 1}, column ${j + 1}.`);
                     return null; 
                 }
@@ -165,6 +165,9 @@ function sendTableData() {
 		.then((response) => {
 			if (!response.ok) {
 				console.error("Failed to submit table data:", response.statusText);
+			}
+			else {
+				window.alert("Risk Matrix successfully saved")
 			}
 		})
 		.catch((error) => {
