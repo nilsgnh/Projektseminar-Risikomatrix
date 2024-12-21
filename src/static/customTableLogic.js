@@ -97,7 +97,16 @@ function extractRiskLevels() {
     return [colors, riskNames];
 }
 
+// reads and checks Matrix Name
+function extractMatrixName() {
+	const name = document.getElementById("matrixName")
 
+	if (name.value == "") {
+		window.alert(`Please enter a matrix name`);
+		return null
+	}
+	return name.value
+}
 
 
 // reads from the Matrix Representation Table
@@ -137,6 +146,11 @@ function extractMatrixTable(possibleRisks) {
 
 // sends the gathered Matrix Data to the backend
 function sendTableData() {
+		matrixName = extractMatrixName();
+		if (matrixName == null) {
+			return null;
+		}
+
     riskLevelData = extractRiskLevels();
     if (riskLevelData == null) {
         return null;
@@ -157,6 +171,7 @@ function sendTableData() {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
+			name: matrixName,
 			table: tableData,
 			colors: colors,
 			riskNames: riskNames,
@@ -168,6 +183,10 @@ function sendTableData() {
 			}
 			else {
 				window.alert("Risk Matrix successfully saved")
+				const ulElement = document.querySelector("ul");
+				const newLi = document.createElement("li"); 
+				newLi.textContent = matrixName;
+				ulElement.appendChild(newLi);
 			}
 		})
 		.catch((error) => {

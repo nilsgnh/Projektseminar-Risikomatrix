@@ -4,6 +4,8 @@ from matrix import *
 
 # Definition of Din EN 50126 Matrix
 def dinMatrix():
+    name = "DIN EN 50126 Matrix"
+
     matrix_rep = np.array([
         [3, 4, 4, 4],   # Häufig
         [2, 3, 4, 4],   # Wahrscheinlich
@@ -28,7 +30,7 @@ def dinMatrix():
     y_beschriftungen = ["Häufig", "Wahrscheinlich", "Gelegentlich", "Selten", "Unwahrscheinlich", "Unvorstellbar"]
     x_beschriftungen = ["Unbedeutend", "Marginal", "Kritisch", "Katastrophal"]
 
-    matrix = Matrix(matrix_rep, field_nums, risk_labels, risk_colors, x_beschriftungen, y_beschriftungen)
+    matrix = Matrix(name, matrix_rep, field_nums, risk_labels, risk_colors, x_beschriftungen, y_beschriftungen)
 
     return matrix
 
@@ -36,6 +38,8 @@ def dinMatrix():
 # Definition optimal Matrix by Cox
 
 def optimalMatrix():
+    name = "Optimale Matrix nach Cox"
+
     matrix_rep = np.array([
         [1, 1, 2, 3, 3], 
         [1, 1, 2, 2, 3], 
@@ -62,6 +66,6 @@ def optimalMatrix():
     x_beschriftungen = ["0-0.2", "0.2-0.4", "0.4-0.6", "0.6-0.8", "0.8-1"]
 
 
-    matrix = Matrix(matrix_rep, field_nums, risk_labels, risk_colors, x_beschriftungen, y_beschriftungen)
+    matrix = Matrix(name, matrix_rep, field_nums, risk_labels, risk_colors, x_beschriftungen, y_beschriftungen)
 
     return matrix

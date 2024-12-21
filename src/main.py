@@ -18,17 +18,18 @@ def main():
 
 @main_bp.route('/custom', methods=['GET'])
 def custom():
-    return render_template("customMatrix.html")
+    matrixNames = [i.name for i in riskMatrixList]
+    return render_template("customMatrix.html", matrices=matrixNames)
 
 
 # turns the sent Data from customTableLogig.js into a globally accessible Matrix
 @main_bp.route('/custom/enterTable', methods=["POST"])
 def process_table():
     data = request.get_json()
+    matrixName = data.get('name')
     table_data = np.array(data.get('table', []), dtype=float)
     colors = data.get('colors', [])
     names = data.get('riskNames', [])
-
 
     # set risk dictionary
     risk_labels = {}
@@ -58,9 +59,10 @@ def process_table():
     for i in range(len(table_data[0])):
         x_beschriftungen.append(f"{round(i * x_step, 2)}-{round((i + 1) * x_step, 2)}")
 
+    print(matrixName)
 
     #generate and globalize matrix
-    newMatrix = Matrix(table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
+    newMatrix = Matrix(matrixName, table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
     global riskMatrixList
     riskMatrixList.append(newMatrix)
 
