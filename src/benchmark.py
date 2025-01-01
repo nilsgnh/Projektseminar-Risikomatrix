@@ -40,8 +40,9 @@ def calculate_range_compression(matrix):
 
     # in min_max_values gespeicherte Werte werden in die entsprechenden Klassen-Arrays eingefügt
     for risk_class, minval, maxval in min_max_values:
-        class_values[risk_class-1].append(minval)
-        class_values[risk_class-1].append(maxval)
+        class_values[int(risk_class-1)].append(minval)
+        class_values[int(risk_class-1)].append(maxval)
+
 
     # je Klasse wird der kleinste und größte Wert berechnet
     class_range = []
@@ -117,8 +118,8 @@ def calculate_overlap(matrix):
     class_values = [[] for _ in range(n_classes)]
 
     for risk_class, minval, maxval in min_max_values:
-        class_values[risk_class-1].append(minval)
-        class_values[risk_class-1].append(maxval)
+        class_values[int(risk_class-1)].append(minval)
+        class_values[int(risk_class-1)].append(maxval)
 
     class_range = []
     for i in range(n_classes):
@@ -265,7 +266,7 @@ def calc_benchmark(matrix):
     Returns:
     - ScoreBenchmark: Der berechnete Benchmark Score.
     """
-    res = ordnung_risk_matrix(matrixopt)
+    res = ordnung_risk_matrix(matrix)
     w = res['benchmark_score']
     x = calculate_range_compression(matrix)
     y = calculate_overlap(matrix)

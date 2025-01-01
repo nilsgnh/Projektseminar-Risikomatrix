@@ -5,6 +5,7 @@ from simulation import *
 from plot import *
 import numpy as np
 from matrix import *
+from benchmark import calc_benchmark
 
 customMatr = None
 main_bp = Blueprint('main', __name__)
@@ -111,6 +112,9 @@ def plotCustom():
     heat_plot = plotHeatmap(matrix_felder, customMatr)
     scatter_plot = plotScatter(severity_mean, frequency_mean, priorities, severities, frequencies, customMatr)
 
+    # Benchmark berechnen
+    print('Benchmark-Score der gespeicherten Matrix: ')
+    print(calc_benchmark(customMatr))
 
     #render images back to page
     return render_template("customMatrix.html", customBar=bar_plot, customHeat=heat_plot, customScatter=scatter_plot)
