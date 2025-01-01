@@ -1,5 +1,5 @@
 # main.py
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from predefinedMatrices import optimalMatrix, dinMatrix
 from simulation import *
 from plot import *
@@ -12,10 +12,22 @@ main_bp = Blueprint('main', __name__)
 
 riskMatrixList = [optimalMatrix(), dinMatrix()] #--------------------------------------------> globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
 
+# Globale Variablen für die ausgewählten Matrizen
+selected_matrices = {"matrix1": 0, "matrix2": 1}
 
-@main_bp.route('/', methods=['GET'])
+@main_bp.route('/', methods=['GET', 'POST'])
 def main():
-    return render_template("index.html")
+    global selected_matrices
+    if request.method == 'POST':
+        # Hole die ausgewählten Matrizen-Namen aus dem Formular
+        matrix1_name = request.form.get('matrix1', '')
+        matrix2_name = request.form.get('matrix2', '')
+
+        # Finde die Indizes der Matrizen basierend auf ihren Namen
+        selected_matrices["matrix1"] = next((i for i, m in enumerate(riskMatrixList) if m.name == matrix1_name), 0)
+        selected_matrices["matrix2"] = next((i for i, m in enumerate(riskMatrixList) if m.name == matrix2_name), 1)
+
+    return render_template("index.html", riskMatrixList=riskMatrixList, selected_matrices=selected_matrices)
 
 @main_bp.route('/custom', methods=['GET'])
 def custom():
@@ -134,9 +146,11 @@ def set_parameters():
     frequencies = points[0]
     severities = points[1]
 
+    # Simulation der ausgewählten Matrizen
+    matrix = riskMatrixList[selected_matrices["matrix1"]]
+    matrix1 = riskMatrixList[selected_matrices["matrix2"]]
 
     #Simulation of first Matrix
-    matrix = riskMatrixList[0] ###--------------------------------------------------------------------------------------1.übergebene Matrix hier aus der Liste auswählen
     pointsInMatrix = simulateRiskMatrix(frequencies, severities, matrix)
     priorities = pointsInMatrix[0]
     matrix_felder = pointsInMatrix[1]
@@ -149,7 +163,6 @@ def set_parameters():
     score1 = calc_benchmark(matrix)
 
     #Simulation of second Matrix
-    matrix1 = riskMatrixList[1] ###--------------------------------------------------------------------------------------2.übergebene Matrix hier aus der Liste auswählen
     pointsInMatrix1 = simulateRiskMatrix(frequencies, severities, matrix1)
     priorities1 = pointsInMatrix1[0]
     matrix_felder1 = pointsInMatrix1[1]
@@ -195,6 +208,6 @@ def set_parameters():
         greatestscores['quantifying_errors_score'] = 'both'
 
     #render images back to index page
-    return render_template("index.html", bar1=bar_plot, heat1=heat_plot, scatter1=scatter_plot, bar2=bar_plot1, heat2=heat_plot1, scatter2=scatter_plot1, score1=score1, score2=score2,greatestscores=greatestscores)
+    return render_template("index.html", bar1=bar_plot, heat1=heat_plot, scatter1=scatter_plot, bar2=bar_plot1, heat2=heat_plot1, scatter2=scatter_plot1, score1=score1, score2=score2,greatestscores=greatestscores, riskMatrixList=riskMatrixList, selected_matrices=selected_matrices)
 
 

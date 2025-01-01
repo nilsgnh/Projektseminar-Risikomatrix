@@ -78,7 +78,7 @@ def calculate_range_compression(matrix):
     
     AverageRange = ScoreRange/n_classes
 
-    ScoreRange = 1- (AverageRange/(global_max-global_min)+AverageSumDiff)
+    ScoreRange = max(1- (AverageRange+AverageSumDiff/(global_max-global_min)), 0) ##TODO: Dafür sorgen, dass ScoreRange immer zwischen 0 und 1 liegt
 
     return ScoreRange
 

@@ -107,7 +107,7 @@ form label {
     max-width: 1100px;
 }
 
-#h2plots, #h2setsim, #h2-create-matrix, #h2benchmark {
+#h2plots, #h2setsim, #h2-create-matrix, #h2benchmark, #h2setmat {
     margin: 20px auto;
     background-color: #f9f9f9;
     padding: 10px;
@@ -197,4 +197,8 @@ table {
 .equal {
     color: gray;
     font-weight: bold;
+}
+
+.center{
+    text-align: center;
 }

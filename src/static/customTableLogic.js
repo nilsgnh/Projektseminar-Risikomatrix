@@ -193,3 +193,8 @@ function sendTableData() {
 			console.error("Error while sending table data:", error);
 		});
 }
+
+// Funktion zum Zurückgehen in der Browser-Historie
+function goBack() {
+	window.location.href = "/";
+}
