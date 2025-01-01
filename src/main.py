@@ -5,6 +5,7 @@ from simulation import *
 from plot import *
 import numpy as np
 from matrix import *
+from benchmark import calc_benchmark
 
 customMatr = None
 main_bp = Blueprint('main', __name__)
@@ -144,6 +145,8 @@ def set_parameters():
     heat_plot = plotHeatmap(matrix_felder, matrix)
     scatter_plot = plotScatter(severity_mean, frequency_mean, priorities, severities, frequencies, matrix)
 
+    print('calc benchmark-score for 1. matrix:')
+    score1 = calc_benchmark(matrix)
 
     #Simulation of second Matrix
     matrix1 = riskMatrixList[1] ###--------------------------------------------------------------------------------------2.übergebene Matrix hier aus der Liste auswählen
@@ -154,9 +157,44 @@ def set_parameters():
     bar_plot1 = plotPriorityDistribution(priorities1, matrix1)
     heat_plot1 = plotHeatmap(matrix_felder1, matrix1)
     scatter_plot1 = plotScatter(severity_mean, frequency_mean, priorities1, severities, frequencies, matrix1)
+    
+    print('calc benchmark-score for 2. matrix:')
+    score2 = calc_benchmark(matrix1)
 
+    #Vergleich der benchmarks und entsprechendes Einfärben der Scores
+    greatestscores = {
+        "benchmark_score": 'score1',
+        "ordnung_score": 'score1',
+        "range_compression_score": 'score1',
+        "overlap_score": 'score1',
+        "quantifying_errors_score": 'score1'
+    }
+    if score1['benchmark_score'] < score2['benchmark_score']:
+        greatestscores['benchmark_score'] = 'score2'
+    elif score1['benchmark_score'] == score2['benchmark_score']:
+        greatestscores['benchmark_score'] = 'both'
+
+    if score1['ordnung_score'] < score2['ordnung_score']:
+        greatestscores['ordnung_score'] = 'score2'
+    elif score1['ordnung_score'] == score2['ordnung_score']:
+        greatestscores['ordnung_score'] = 'both'
+
+    if score1['range_compression_score'] < score2['range_compression_score']:
+        greatestscores['range_compression_score'] = 'score2'
+    elif score1['range_compression_score'] == score2['range_compression_score']:
+        greatestscores['range_compression_score'] = 'both'
+
+    if score1['overlap_score'] < score2['overlap_score']:
+        greatestscores['overlap_score'] = 'score2'
+    elif score1['overlap_score'] == score2['overlap_score']:
+        greatestscores['overlap_score'] = 'both'
+
+    if score1['quantifying_errors_score'] < score2['quantifying_errors_score']:
+        greatestscores['quantifying_errors_score'] = 'score2'
+    elif score1['quantifying_errors_score'] == score2['quantifying_errors_score']:
+        greatestscores['quantifying_errors_score'] = 'both'
 
     #render images back to index page
-    return render_template("index.html", bar1=bar_plot, heat1=heat_plot, scatter1=scatter_plot, bar2=bar_plot1, heat2=heat_plot1, scatter2=scatter_plot1)
+    return render_template("index.html", bar1=bar_plot, heat1=heat_plot, scatter1=scatter_plot, bar2=bar_plot1, heat2=heat_plot1, scatter2=scatter_plot1, score1=score1, score2=score2,greatestscores=greatestscores)
 
 

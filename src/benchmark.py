@@ -40,8 +40,8 @@ def calculate_range_compression(matrix):
 
     # in min_max_values gespeicherte Werte werden in die entsprechenden Klassen-Arrays eingefügt
     for risk_class, minval, maxval in min_max_values:
-        class_values[risk_class-1].append(minval)
-        class_values[risk_class-1].append(maxval)
+        class_values[int(risk_class-1)].append(minval)
+        class_values[int(risk_class-1)].append(maxval)
 
     # je Klasse wird der kleinste und größte Wert berechnet
     class_range = []
@@ -117,8 +117,8 @@ def calculate_overlap(matrix):
     class_values = [[] for _ in range(n_classes)]
 
     for risk_class, minval, maxval in min_max_values:
-        class_values[risk_class-1].append(minval)
-        class_values[risk_class-1].append(maxval)
+        class_values[int(risk_class-1)].append(minval)
+        class_values[int(risk_class-1)].append(maxval)
 
     class_range = []
     for i in range(n_classes):
@@ -265,15 +265,28 @@ def calc_benchmark(matrix):
     Returns:
     - ScoreBenchmark: Der berechnete Benchmark Score.
     """
-    res = ordnung_risk_matrix(matrixopt)
+    res = ordnung_risk_matrix(matrix)
     w = res['benchmark_score']
     x = calculate_range_compression(matrix)
     y = calculate_overlap(matrix)
     z = calc_quantifying_errors(matrix)
 
-    ScoreBenchmark = 0.1762 * w + 0.3598 * x + 0.1877 * y + 0.2763 * z
+    #todo: evt. Gewichtung anders bestimmen
+    a = 0.1762
+    b = 0.3598
+    c = 0.1877
+    d = 0.2763
 
-    return ScoreBenchmark
+    ScoreBenchmark = a*w + b*x + c*y + d*z
+
+    results = {
+        "benchmark_score": ScoreBenchmark,
+        "ordnung_score": w,
+        "range_compression_score": x,
+        "overlap_score": y,
+        "quantifying_errors_score": z
+    }
+    return results
 
 # Beispiel für die Nutzung
 if __name__ == "__main__":
