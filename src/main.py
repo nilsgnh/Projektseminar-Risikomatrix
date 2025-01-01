@@ -10,6 +10,8 @@ from benchmark import calc_benchmark
 customMatr = None
 main_bp = Blueprint('main', __name__)
 
+riskMatrixList = [optimalMatrix(), dinMatrix()] #--------------------------------------------> globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
+
 
 @main_bp.route('/', methods=['GET'])
 def main():
@@ -59,27 +61,17 @@ def process_table():
 
 
     #generate and globalize matrix
-    matrix = Matrix(table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
-    global customMatr
-    customMatr = matrix
-
-    '''
-    print("Matrix: ", table_data)
-    print("Farben: ", colors)
-    print("X-Beschriftungen:", x_beschriftungen)
-    print("Y-Beschriftungen:", y_beschriftungen)
-    print("FelderNummerierung:", field_nums)
-    print("Risiko Labels: ", risk_labels)
-
-    print(matrix)
-    '''
+    newMatrix = Matrix(table_data, field_nums, risk_labels, colors, x_beschriftungen, y_beschriftungen)
+    global riskMatrixList
+    riskMatrixList.append(newMatrix)
 
     return '', 204  # Respond with No Content
 
 
 
 
-# Plots the custom Matrix 
+# Plots the custom Matrix (nicht mehr gebraucht)
+'''
 @main_bp.route('/custom/submit', methods=['GET', 'POST'])
 def plotCustom():
     if customMatr == None:
@@ -118,7 +110,7 @@ def plotCustom():
 
     #render images back to page
     return render_template("customMatrix.html", customBar=bar_plot, customHeat=heat_plot, customScatter=scatter_plot)
-
+'''
 
 
 
@@ -145,7 +137,7 @@ def set_parameters():
 
 
     #Simulation of first Matrix
-    matrix = optimalMatrix()
+    matrix = riskMatrixList[0] ###--------------------------------------------------------------------------------------1.übergebene Matrix hier aus der Liste auswählen
     pointsInMatrix = simulateRiskMatrix(frequencies, severities, matrix)
     priorities = pointsInMatrix[0]
     matrix_felder = pointsInMatrix[1]
@@ -156,7 +148,7 @@ def set_parameters():
 
 
     #Simulation of second Matrix
-    matrix1 = dinMatrix()
+    matrix1 = riskMatrixList[1] ###--------------------------------------------------------------------------------------2.übergebene Matrix hier aus der Liste auswählen
     pointsInMatrix1 = simulateRiskMatrix(frequencies, severities, matrix1)
     priorities1 = pointsInMatrix1[0]
     matrix_felder1 = pointsInMatrix1[1]
