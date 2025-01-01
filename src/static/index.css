@@ -107,7 +107,7 @@ form label {
     max-width: 1100px;
 }
 
-#h2plots, #h2setsim, #h2-create-matrix, #h2benchmark, #h2setmat {
+#h2plots, #h2setsim, #h2-create-matrix, #h2benchmark, #h2setmat, #h2custommatrix {
     margin: 20px auto;
     background-color: #f9f9f9;
     padding: 10px;
