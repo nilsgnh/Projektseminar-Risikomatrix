@@ -1,6 +1,6 @@
 # main.py
 from flask import Blueprint, render_template, request, session
-from predefinedMatrices import optimalMatrix, dinMatrix
+from predefinedMatrices import optimalMatrix, dinMatrix, optimalMatrix2
 from simulation import *
 from plot import *
 import numpy as np
@@ -10,7 +10,7 @@ from benchmark import calc_benchmark
 customMatr = None
 main_bp = Blueprint('main', __name__)
 
-riskMatrixList = [optimalMatrix(), dinMatrix()] #--------------------------------------------> globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
+riskMatrixList = [optimalMatrix(), dinMatrix(), optimalMatrix2()] #--------------------------------------------> globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
 
 # Globale Variablen für die ausgewählten Matrizen
 selected_matrices = {"matrix1": 0, "matrix2": 1}
