@@ -78,7 +78,7 @@ def calculate_range_compression(matrix):
     
     AverageRange = ScoreRange/n_classes
 
-    ScoreRange = max(1- (AverageRange+AverageSumDiff/(global_max-global_min)), 0) ##TODO: Dafür sorgen, dass ScoreRange immer zwischen 0 und 1 liegt
+    ScoreRange = 1- ((0.7*AverageRange+0.3*AverageSumDiff)/(global_max-global_min)) ##TODO: Dafür sorgen, dass ScoreRange immer zwischen 0 und 1 liegt
 
     return ScoreRange
 
@@ -272,10 +272,10 @@ def calc_benchmark(matrix):
     z = calc_quantifying_errors(matrix)
 
     #todo: evt. Gewichtung anders bestimmen
-    a = 0.1762
-    b = 0.3598
-    c = 0.1877
-    d = 0.2763
+    a = 0.1947 #Berechnet durch Ausgabe von idealer Matrix (0.9887)
+    b = 0.2881
+    c = 0.2092
+    d = 0.308
 
     ScoreBenchmark = a*w + b*x + c*y + d*z
 
