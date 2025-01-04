@@ -73,7 +73,10 @@ def calculate_range_compression(matrix):
             sumdiff += abs(class_range[i]-class_range[j])
 
     # Durchschnittlicher Unterschied zwischen den Klassen
-    AverageSumDiff = sumdiff/(n_classes*(n_classes-1)/2) # durch n(n-1)/2 geteilt, da es n(n-1)/2 Unterscheidungen gibt
+    if n_classes == 1:
+        AverageSumDiff = 0
+    else:
+        AverageSumDiff = sumdiff/(n_classes*(n_classes-1)/2) # durch n(n-1)/2 geteilt, da es n(n-1)/2 Unterscheidungen gibt
     #print("AverageSumDiff: ", AverageSumDiff)
     
     AverageRange = ScoreRange/n_classes
