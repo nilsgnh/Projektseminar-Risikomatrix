@@ -142,7 +142,10 @@ def calculate_overlap(matrix):
     for x in range (1, k):
         maxoverlap+=(k-x)*x
 
-    scoreoverlap = 1- totaloverlap/maxoverlap
+    if maxoverlap == 0:
+        scoreoverlap = 0
+    else:
+        scoreoverlap = 1- totaloverlap/maxoverlap
 
     #print("Total Overlap: ", totaloverlap)
     #print("Max Overlap: ", maxoverlap)
