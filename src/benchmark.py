@@ -43,7 +43,6 @@ def calculate_range_compression(matrix):
         class_values[int(risk_class-1)].append(minval)
         class_values[int(risk_class-1)].append(maxval)
 
-
     # je Klasse wird der kleinste und größte Wert berechnet
     class_range = []
     global_min = 1
@@ -74,12 +73,15 @@ def calculate_range_compression(matrix):
             sumdiff += abs(class_range[i]-class_range[j])
 
     # Durchschnittlicher Unterschied zwischen den Klassen
-    AverageSumDiff = sumdiff/(n_classes*(n_classes-1)/2) # durch n(n-1)/2 geteilt, da es n(n-1)/2 Unterscheidungen gibt
+    if n_classes == 1:
+        AverageSumDiff = 0
+    else:
+        AverageSumDiff = sumdiff/(n_classes*(n_classes-1)/2) # durch n(n-1)/2 geteilt, da es n(n-1)/2 Unterscheidungen gibt
     #print("AverageSumDiff: ", AverageSumDiff)
     
     AverageRange = ScoreRange/n_classes
 
-    ScoreRange = 1- (AverageRange/(global_max-global_min)+AverageSumDiff)
+    ScoreRange = 1- ((0.7*AverageRange+0.3*AverageSumDiff)/(global_max-global_min)) ##TODO: Dafür sorgen, dass ScoreRange immer zwischen 0 und 1 liegt
 
     return ScoreRange
 
@@ -140,7 +142,10 @@ def calculate_overlap(matrix):
     for x in range (1, k):
         maxoverlap+=(k-x)*x
 
-    scoreoverlap = 1- totaloverlap/maxoverlap
+    if maxoverlap == 0:
+        scoreoverlap = 1
+    else:
+        scoreoverlap = 1- totaloverlap/maxoverlap
 
     #print("Total Overlap: ", totaloverlap)
     #print("Max Overlap: ", maxoverlap)
@@ -179,7 +184,10 @@ def calc_quantifying_errors(matrix):
         quantifying_errors += n_unique_classes
 
     # Score berechnen
-    quantifying_errors_score = 1 - quantifying_errors/(n_crosses*4)
+    if n_crosses == 0:
+        quantifying_errors_score = 0
+    else:
+        quantifying_errors_score = 1 - quantifying_errors/(n_crosses*4)
     return quantifying_errors_score
 
 
@@ -272,9 +280,22 @@ def calc_benchmark(matrix):
     y = calculate_overlap(matrix)
     z = calc_quantifying_errors(matrix)
 
-    ScoreBenchmark = 0.1762 * w + 0.3598 * x + 0.1877 * y + 0.2763 * z
+    #todo: evt. Gewichtung anders bestimmen
+    a = 0.1947 #Berechnet durch Ausgabe von idealer Matrix (0.9887)
+    b = 0.2881
+    c = 0.2092
+    d = 0.308
 
-    return ScoreBenchmark
+    ScoreBenchmark = a*w + b*x + c*y + d*z
+
+    results = {
+        "benchmark_score": ScoreBenchmark,
+        "ordnung_score": w,
+        "range_compression_score": x,
+        "overlap_score": y,
+        "quantifying_errors_score": z
+    }
+    return results
 
 # Beispiel für die Nutzung
 if __name__ == "__main__":
