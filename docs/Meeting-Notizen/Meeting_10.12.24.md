@@ -4,6 +4,8 @@
     * Spannweite der einzelnen Scores
     * damit statistisch rumspielen
     * mit schlechter Risikomatrix hantieren (diese erstmal finden)
+    **!!Annahme bei allen Matrizen: lineare Achseneinteilung**
+
 * aktualisiertes Benchmark zuschicken **done**
 * nicht so viel Arbeit in Programmdokumentation stecken, aber sollte wiederverwendet werden können
 * Bedenken ausformulieren zu evt. kritischen Benchmark-Schritten **TODO**
