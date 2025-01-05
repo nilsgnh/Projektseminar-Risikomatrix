@@ -143,7 +143,7 @@ def calculate_overlap(matrix):
         maxoverlap+=(k-x)*x
 
     if maxoverlap == 0:
-        scoreoverlap = 0
+        scoreoverlap = 1
     else:
         scoreoverlap = 1- totaloverlap/maxoverlap
 
@@ -184,7 +184,10 @@ def calc_quantifying_errors(matrix):
         quantifying_errors += n_unique_classes
 
     # Score berechnen
-    quantifying_errors_score = 1 - quantifying_errors/(n_crosses*4)
+    if n_crosses == 0:
+        quantifying_errors_score = 0
+    else:
+        quantifying_errors_score = 1 - quantifying_errors/(n_crosses*4)
     return quantifying_errors_score
 
 
