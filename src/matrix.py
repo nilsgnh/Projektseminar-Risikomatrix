@@ -7,7 +7,8 @@ import numpy as np
 # yLabels:        Bezeichner für Häufigkeits-Klassen  length muss größe der Matrix entsprechen
 
 class Matrix:
-    def __init__(self, representation, fieldNums, riskLabels, riskColors, xLabels, yLabels):
+    def __init__(self, name, representation, fieldNums, riskLabels, riskColors, xLabels, yLabels):
+        self.name = name
         self.representation = representation
         self.rows, self.cols = representation.shape
         self.fieldNums = fieldNums

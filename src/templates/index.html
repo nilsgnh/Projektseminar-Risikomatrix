@@ -13,6 +13,33 @@
     </header>
     
     <main>
+        <h2 id="h2custommatrix">Create Custom Matrices</h2>
+        <section class="form-section">
+            <form action="/custom" method="GET">
+                <button type="submit">Go To Custom-Matrix Page</button>
+            </form>
+        </section>
+        <h2 id="h2setmat">Set Matrices</h2>
+        <section class="form-section">
+            <form action="/" method="POST" id="matrix_form">
+                <label for="matrix_select1">Select Matrix 1:</label>
+                <select id="matrix_select1" name="matrix1">
+                    {% for matrix in riskMatrixList %}
+                    <option value="{{ matrix.name }}" {% if loop.index0 == selected_matrices['matrix1'] %}selected{% endif %}> {{ matrix.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <label for="matrix_select2">Select Matrix 2:</label>
+                <select id="matrix_select2" name="matrix2">
+                    {% for matrix in riskMatrixList %}
+                    <option value="{{ matrix.name }}" {% if loop.index0 == selected_matrices['matrix2'] %}selected{% endif %}>{{ matrix.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <button type="submit">Set Matrices</button>
+            </form>
+        </section>
+
         <h2 id="h2setsim">Set Simulation Parameters</h2>
         <section class="form-section">
             <form action="/submit" id="set_parameters" method="POST">
@@ -46,19 +73,102 @@
     
     <br>
 
-    <h2 id="h2plots">Plots</h2>
+    <h2 id="h2benchmark"> Benchmark </h2>
+    <section class="form-section">
+        {% if greatestscores and score1 and score2 %}
         <div class="plot-comparison">
+            <div class="col">
+                <h3>Matrix 1: {{ riskMatrixList[selected_matrices["matrix1"]].name }}</h3>
+                <div class="plot">
+                    <b>Benchmark-Score:</b> 
+                    <span class="{% if greatestscores['benchmark_score'] == 'score1' %}highlight{% elif greatestscores['benchmark_score'] == 'both' %}equal{% endif %}">
+                        {{ score1['benchmark_score'] }}
+                    </span>
+                </div>
+                <div class="plot">
+                    <u>Ordnungsmaß:</u>
+                    <span class="{% if greatestscores['ordnung_score'] == 'score1' %}highlight{% elif greatestscores['ordnung_score'] == 'both' %}equal{% endif %}">
+                        {{ score1['ordnung_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Range-Compression:</u>
+                    <span class="{% if greatestscores['range_compression_score'] == 'score1' %}highlight{% elif greatestscores['range_compression_score'] == 'both' %}equal{% endif %}">
+                        {{ score1['range_compression_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Overlap:</u>
+                    <span class="{% if greatestscores['overlap_score'] == 'score1' %}highlight{% elif greatestscores['overlap_score'] == 'both' %}equal{% endif %}">
+                        {{ score1['overlap_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Quantifying Errors:</u>
+                    <span class="{% if greatestscores['quantifying_errors_score'] == 'score1' %}highlight{% elif greatestscores['quantifying_errors_score'] == 'both' %}equal{% endif %}">
+                        {{ score1['quantifying_errors_score'] }}
+                    </span>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Matrix 2: {{ riskMatrixList[selected_matrices["matrix2"]].name }}</h3>
+                <div class="plot">
+                    <b>Benchmark-Score:</b> 
+                    <span class="{% if greatestscores['benchmark_score'] == 'score2' %}highlight{% elif greatestscores['benchmark_score'] == 'both' %}equal{% endif %}">
+                        {{ score2['benchmark_score'] }}
+                    </span>
+                </div>
+                <div class="plot">
+                    <u>Ordnungsmaß:</u>
+                    <span class="{% if greatestscores['ordnung_score'] == 'score2' %}highlight{% elif greatestscores['ordnung_score'] == 'both' %}equal{% endif %}">
+                        {{ score2['ordnung_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Range-Compression:</u>
+                    <span class="{% if greatestscores['range_compression_score'] == 'score2' %}highlight{% elif greatestscores['range_compression_score'] == 'both' %}equal{% endif %}">
+                        {{ score2['range_compression_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Overlap:</u>
+                    <span class="{% if greatestscores['overlap_score'] == 'score2' %}highlight{% elif greatestscores['overlap_score'] == 'both' %}equal{% endif %}">
+                        {{ score2['overlap_score'] }}
+                    </span>
+                    <br><br>
+                    <u>Quantifying Errors:</u>
+                    <span class="{% if greatestscores['quantifying_errors_score'] == 'score2' %}highlight{% elif greatestscores['quantifying_errors_score'] == 'both' %}equal{% endif %}">
+                        {{ score2['quantifying_errors_score'] }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p>Die Benchmark-Scores werden über Drücken des "Submit"-Buttons errechnet.</p>
+        {% endif %}
+    </section>
+
+
+    <br>
+
+    <h2 id="h2plots">Plots</h2>
+    <div class="plot-comparison">
+        {% if scatter1 and bar1 and heat1 %}
         <div class="col">
+            <h3>Matrix 1: {{ riskMatrixList[selected_matrices["matrix1"]].name }}</h3>
             <div class="plot">{{ scatter1|safe }}</div>
             <div class="plot">{{ bar1|safe }}</div>
             <div class="plot">{{ heat1|safe }}</div>
         </div>
         <div class="col">
+            <h3>Matrix 2: {{ riskMatrixList[selected_matrices["matrix2"]].name }}</h3>
             <div class="plot">{{ scatter2|safe }}</div>
             <div class="plot">{{ bar2|safe }}</div>
             <div class="plot">{{ heat2|safe }}</div>
         </div>
+        {% else %}
+        <section class="form-section">
+            <p>Die Plots werden über Drücken des "Submit"-Buttons erzeugt.</p>
+        </section>
+        {% endif %}
     </div>
+    
+
     </main>
 
 </body>

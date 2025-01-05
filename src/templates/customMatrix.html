@@ -11,61 +11,81 @@
 			rel="stylesheet"
 			href="../static/index.css" />
 	</head>
+
 	<body>
+		<header>
+			<h1>Risikomatrix Erstellen</h1>
+		</header>
+
 		<div class="form-section">
-			<h2 id="h2-create-matrix">Create Custom Matrix</h2>
-			<div class="flex-container">
-				<div class="col">
-					<h3>Generate Matrix</h3>
-					<div>
-						<p>define how many rows ond columns the table has and fill the generated Table according to the specified Risk Numbers</p>
-						<label for="rows">Rows (max 7):</label>
-						<input
-							type="number"
-							id="rows"
-							max="10"
-							min="1"
-							value="3" />
-						<label for="cols">Columns (max 7):</label>
-						<input
-							type="number"
-							id="cols"
-							max="10"
-							min="1"
-							value="3" />
-					</div>
-					<button onclick="generateTable()">Generate Table</button>
-					<table id="matrixTable"></table>
-				</div>
+			<h2 id="h2-create-matrix">Go Back to Main Page</h2>
+			<button type="submit" onclick="goBack()">Go Back</button>
+		</div>
 
-				<div class="col">
-					<h3>Risk Settings</h3>
-					<p>specify a name and a color for each risk level in your matrix (lowest number=lowest risk)</p>
-					<table id="riskLevels">
-						<thead>
-							<tr>
-								<th>Risk Number</th>
-								<th>Risk Color</th>
-								<th>Risk Name</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td><input type="color" /></td>
-								<td>
-									<input
-										type="text"
-										placeholder="Enter name" />
-								</td>
-							</tr>
-						</tbody>
-					</table>
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Enter Matrix Name</h2>
+			<input
+				id="matrixName"
+				type="text"
+				placeholder="Enter name of Matrix" />
+		</div>
 
-					<button onclick="addRow()">Add Row</button>
-					<button onclick="removeRow()">Remove Row</button>
-				</div>
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Set Risk Levels</h2>
+			<table id="riskLevels">
+				<thead>
+					<tr>
+						<th>Risk Number</th>
+						<th>Risk Color</th>
+						<th>Risk Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><input type="color" /></td>
+						<td>
+							<input
+								type="text"
+								placeholder="Enter name" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<button type="submit" onclick="addRow()">Add Row</button>
+			<button type="submit" onclick="removeRow()">Remove Row</button>
+		</div>
+
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Define Matrix</h2>
+			<div>
+				<p>
+					define how many rows ond columns the table has and fill the generated Table
+					according to the specified Risk Numbers
+				</p>
+				<label for="rows">Rows (max 7):</label>
+				<input
+					type="number"
+					id="rows"
+					max="10"
+					min="1"
+					value="3" />
+				<label for="cols">Columns (max 7):</label>
+				<input
+					type="number"
+					id="cols"
+					max="10"
+					min="1"
+					value="3" />
+					<button type="submit" onclick="generateTable()">Generate Table</button>
 			</div>
+		
+			<table id="matrixTable"></table>
+		</div>
+
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Add Matrix</h2>
 			<button
 				type="submit"
 				id="submitButton"
@@ -75,84 +95,13 @@
 			</button>
 		</div>
 
-		<!--
-		<h2 id="h2setsim">Set Simulation Parameters</h2>
-		<section class="form-section">
-			<form
-				action="/custom/submit"
-				id="set_parameters"
-				method="POST">
-				<label for="n_simulations">Number of Simulations:</label>
-				<input
-					type="number"
-					id="n_simulations"
-					name="n_simulations"
-					value="2000"
-					min="1"
-					max="10000" /><br /><br />
-
-				<div class="flexfreqsev">
-					<div class="flexfreq">
-						<h3>Frequency</h3>
-						<label for="frequency_mean">Frequency Mean:</label>
-						<input
-							type="number"
-							id="frequency_mean"
-							name="frequency_mean"
-							step="0.001"
-							value="0.333"
-							min="0"
-							max="1" /><br /><br />
-
-						<label for="frequency_perc">Frequency Tolerance (+/-%):</label>
-						<input
-							type="number"
-							id="frequency_perc"
-							name="frequency_perc"
-							step="0.05"
-							value="1"
-							min="0"
-							max="100" /><br /><br />
-					</div>
-					<div class="flexsev">
-						<h3>Severity</h3>
-						<label for="severity_mean">Severity Mean:</label>
-						<input
-							type="number"
-							id="severity_mean"
-							name="severity_mean"
-							step="0.001"
-							value="0.5"
-							min="0"
-							max="1" /><br /><br />
-
-						<label for="severity_perc">Severity Tolerance (+/-%):</label>
-						<input
-							type="number"
-							id="severity_perc"
-							name="severity_perc"
-							step="0.05"
-							value="1"
-							min="0"
-							max="100" /><br /><br />
-					</div>
-				</div>
-
-				<input
-					type="submit"
-					value="Submit" />
-			</form>
-		</section>
-
-		<br />
-
-		<h2 id="h2plots">Plots</h2>
-		<div class="plot-comparison">
-			<div class="plot">{{ customScatter|safe }}</div>
-			<div class="plot">{{ customBar|safe }}</div>
-			<div class="plot">{{ customHeat|safe }}</div>
+		<div class="form-section">
+			<h2 id="h2-create-matrix">Matrix Overview</h2>
+			<ul>
+				{% for element in matrices %}
+				<li>{{ element }}</li>
+				{% endfor %}
+			</ul>
 		</div>
-
-		-->
 	</body>
 </html>
