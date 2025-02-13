@@ -10,7 +10,7 @@ from benchmark import calc_benchmark
 customMatr = None
 main_bp = Blueprint('main', __name__)
 
-riskMatrixList = [optimalMatrix(), dinMatrix(), optimalMatrix2()] #--------------------------------------------> globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
+riskMatrixList = [optimalMatrix(), dinMatrix(), optimalMatrix2()] # globale Liste für die risiko Maztritzen, initial mit din und optimal gefüllt
 
 # Globale Variablen für die ausgewählten Matrizen
 selected_matrices = {"matrix1": 0, "matrix2": 1}
@@ -80,51 +80,6 @@ def process_table():
     riskMatrixList.append(newMatrix)
 
     return '', 204  # Respond with No Content
-
-
-
-
-# Plots the custom Matrix (nicht mehr gebraucht)
-'''
-@main_bp.route('/custom/submit', methods=['GET', 'POST'])
-def plotCustom():
-    if customMatr == None:
-        return 'bad request!', 400
-
-    # taking User Input
-    if request.method == 'POST':
-        n_simulations = int(request.form['n_simulations'])
-        frequency_mean = float(request.form['frequency_mean'])
-        frequency_perc = float(request.form['frequency_perc'])
-        severity_mean = float(request.form['severity_mean'])
-        severity_perc = float(request.form['severity_perc'])
-
-    frequency_var = conv_perc_var(95, frequency_perc)
-    severity_var = conv_perc_var(95, severity_perc)
-
-
-    #generating Points
-    points = generatePoints(n_simulations, frequency_mean, frequency_var, severity_mean, severity_var)
-    frequencies = points[0]
-    severities = points[1]
-
-
-    #Simulation
-    pointsInMatrix = simulateRiskMatrix(frequencies, severities, customMatr)
-    priorities = pointsInMatrix[0]
-    matrix_felder = pointsInMatrix[1]
-
-    bar_plot = plotPriorityDistribution(priorities, customMatr)
-    heat_plot = plotHeatmap(matrix_felder, customMatr)
-    scatter_plot = plotScatter(severity_mean, frequency_mean, priorities, severities, frequencies, customMatr)
-
-    # Benchmark berechnen
-    print('Benchmark-Score der gespeicherten Matrix: ')
-    print(calc_benchmark(customMatr))
-
-    #render images back to page
-    return render_template("customMatrix.html", customBar=bar_plot, customHeat=heat_plot, customScatter=scatter_plot)
-'''
 
 
 

@@ -280,8 +280,8 @@ def calc_benchmark(matrix):
     y = calculate_overlap(matrix)
     z = calc_quantifying_errors(matrix)
 
-    #todo: evt. Gewichtung anders bestimmen
-    a = 0.1947 #Berechnet durch Ausgabe von idealer Matrix (0.9887)
+#Berechnet durch Ausgabe von idealer Matrix (0.9887)
+    a = 0.1947 
     b = 0.2881
     c = 0.2092
     d = 0.308

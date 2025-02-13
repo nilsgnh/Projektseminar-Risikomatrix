@@ -30,7 +30,6 @@ form {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    /*falls Breite zu gering, sollen alle Garafiken untereinander angezeigt werden*/
     flex-wrap: wrap;
 }
   
@@ -84,8 +83,8 @@ input[type="submit"]:hover {
 }
 
 form label {
-    display: inline-block; /* Ermöglicht Flexbox in den Form-Gruppen */
-    width: 40%; /* Breite der Labels */
+    display: inline-block;
+    width: 40%;
     text-align: left;
     margin-right: 10px;
 }
@@ -127,13 +126,12 @@ form label {
 .flex-container {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Aligns the items to the top */
-    gap: 20px; /* Space between sections */
+    align-items: flex-start; 
+    gap: 20px; 
 }
 
-
 table {
-    width: 100%; /* Ensure tables take full width inside their column */
+    width: 100%; 
 }
 
 .flexfreqsev div:first-child, .flexfreqsev div:nth-child(2) {
@@ -141,52 +139,49 @@ table {
 }
 
 
-
-/* Table Styling */
 #riskLevels {
-    width: 100%; /* Full width of the container */
-    max-width: 800px; /* Limit max width for readability */
-    margin: 20px auto; /* Center the table */
-    border-collapse: collapse; /* Remove space between table cells */
+    width: 100%;
+    max-width: 800px; 
+    margin: 20px auto;
+    border-collapse: collapse; 
     font-family: Arial, sans-serif;
     font-size: 16px;
     background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden; /* Apply border radius to entire table */
+    overflow: hidden; 
 }
 
-/* Header Row */
 #riskLevels thead {
-    background-color: #b9b9b9; /* Green header */
+    background-color: #b9b9b9;
     color: rgb(0, 0, 0);
     font-weight: bold;
 }
 
 #riskLevels th {
-    padding: 10px 15px; /* Add padding */
-    text-align: left; /* Align header text */
+    padding: 10px 15px;
+    text-align: left;
 }
 
 /* Table Rows */
 #riskLevels td {
-    padding: 10px 15px; /* Add padding for content cells */
-    border-bottom: 1px solid #ddd; /* Add a separator between rows */
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
 }
 
 
 
 /* Hover Effect */
 #riskLevels tr:hover {
-    background-color: #ddd; /* Highlight row on hover */
+    background-color: #ddd;
 }
 
 /* Input Fields */
 #riskLevels input[type="color"],
 #riskLevels input[type="text"] {
-    width: 90%; /* Full width within the cell */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 4px; /* Rounded corners */
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .highlight {
