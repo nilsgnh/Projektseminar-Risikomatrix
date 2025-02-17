@@ -21,4 +21,4 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 REM Start Flask app
-python app.py
+python src/app.py
