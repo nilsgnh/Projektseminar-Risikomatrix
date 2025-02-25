@@ -136,7 +136,7 @@ def calculate_overlap(matrix):
     for j in range(1, k):
         for x in range(1, k-j+1):
             overlap=max(0, class_range[j-1][1]-(class_range[j+x-1][0]))
-            totaloverlap+=overlap
+            totaloverlap+=overlap*x
             #print("Overlap: ", overlap)
     maxoverlap = 0
     for x in range (1, k):
